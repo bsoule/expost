@@ -98,6 +98,14 @@ function expost_meta_box() {
     <label for="expost_source">Etherpad source url:</label>
     <input type="text" name="expost_source" id="expost_source" value="<?= $source ?>" />
   </div>
+  <div id='expost_buttons'>
+    <span class='expost-button'>
+      <a class="expost-submit button" id="ep_preview">Preview</a> 
+    </span>
+    <span class='expost-button'>
+      <a class="expost-submit button" id="ep_source">Source</a> 
+    </span>
+  </div>
   <div id="expost_content"></div>
   <div class="clearing"></div>
   <?
@@ -138,8 +146,8 @@ function expost_ajax_handler() {
   $source = $_POST['source'];
   $slug = basename($source);
 
-  $data = array( "post_content" => expost_fetch_post_contents($source),
-            "post_slug"     => $slug );
+  $data = array( "post_preview" => expost_fetch_post_contents($slug) );
+ 
   echo json_encode($data);
   die();
   // the ajax requestor will receive a '0' in addition to the data
@@ -174,5 +182,13 @@ function expost_insert_post_data($data, $postarr) {
   return $data;  
 } 
 add_filter('wp_insert_post_data','expost_insert_post_data', 1, 2); 
+
+remove_filter('the_preview','_set_preview');
+add_filter('the_preview', 'expost_set_preview');
+function expost_set_preview($post) {
+  error_log("expost_set_preview\n",3,"/tmp/php.log"); 
+  $post['post_content'] = 'PREVIEW POST'; 
+  return $post;
+}
 
 ?>
