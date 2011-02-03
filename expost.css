@@ -28,27 +28,17 @@
     padding: 5px 0 0 0;
     margin-right: 6px;
     }
-
-/*
-#expost_div span.expost-button:disabled a,
-#expost_div span.expost-button:disabled:hover 
-{
-  border: none;
-  cursor: default;
-}
-*/
-
-#expost_div #expost-content-preview, 
+#expost_div #expost-content-preview {
+  margin: 5px;
+} 
 #expost_div div#expost_content iframe {
-    width: 100%;
-    height: 500px;
-    overflow: none;
-    }
-
+  width: 100%;
+  height: 500px;
+  overflow: none;
+}
 #expost_div textarea {
   display:none;
 }
-
 #expost_div iframe {
   margin: 1em 0 0 0;
 }
