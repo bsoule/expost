@@ -45,7 +45,10 @@
 }
 .orange {
   color: #fef4e9;
-  border: solid 1px #da7c0c;
+  border-top: solid 2px #da7c0c;
+  border-left: solid 2px #da7c0c;
+  border-bottom: solid 2px #faa51a;
+  border-right: solid 2px #faa51a;
   background: #f78d1d;
   background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
   background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
@@ -67,7 +70,10 @@
 /* white */
 .white {
   color: #606060;
-  border: solid 1px #b7b7b7;
+  border-top: solid 2px #ededed;
+  border-left: solid 2px #ededed;
+  border-bottom: solid 2px #fff;
+  border-right: solid 2px #fff;
   background: #fff;
   background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
   background: -moz-linear-gradient(top,  #fff,  #ededed);
