@@ -100,7 +100,7 @@ function expost_meta_box() {
   </div>
   <div id='expost_buttons'>
     <span class='expost-button'>
-      <a class="expost-submit my-button" id="ep_preview">Preview</a> 
+      <a class="expost-submit my-button" id="ep_preview">Live Preview</a> 
     </span>
     <span class='expost-button'>
       <a class="expost-submit my-button" id="ep_source">Source</a> 
