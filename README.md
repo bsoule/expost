@@ -18,22 +18,21 @@ X. Allow old posts to stay in the wordpress editor. (This should be fine now.)
 
 ## Nitty-Gritty Details of the LaTeX-Style Numbering
  
-ExPost replaces each occurrence of &dollar;REF[foo] with a unique number, starting with 1 for the first $REF occurrence and counting up sequentially with each new tag.
+ExPost replaces each occurrence of $REF[foo] with a unique number, starting with 1 for the first $REF occurrence and counting up sequentially with each new tag.
 The tags are case sensitive.
-<!-- Notice in the source here we have to use &dollar; instead of an actual dollar sign, for the obvious meta reasons. -->
  
-As a shortcut, if a tag foo has been defined anywhere in the source with &dollar;REF[foo] then all other instances can be abbreviated to just $foo.
+As a shortcut, if a tag foo has been defined anywhere in the source with $REF[foo] then all other instances can be abbreviated to just $foo.
 If $foo occurs where foo is *not* a tag defined anywhere with $REF then it will not be translated, *nor will any* subsequent $-prefixed tags on the same line, defined with $REF or not.
  
 ### Special $FN Syntax for Footnotes
  
-&dollar;FN[foo] works the same as &dollar;REF[foo] except instead of getting replaced with just a number, N, it gets replaced with one of the following:
+$FN[foo] works the same as $REF[foo] except instead of getting replaced with just a number, N, it gets replaced with one of the following:
  
     <a id="foo1" href="#foo">[N]</a>
     <a id="foo" href="#foo1">[N]</a>
  
 The first occurrence is replaced with the first version and the second with the second, assuming only two occurrences, per usual for footnotes.
-In other words, both occurences of the tag get replaced with a number in brackets and they hyperlink to each other -- one being in the body and the other being at the bottom where the actual footnote content is. $FN[more]
+In other words, both occurences of the tag get replaced with a number in brackets and they hyperlink to each other -- one being in the body and the other being at the bottom where the actual footnote content is. [1] 
  
 ---
  
@@ -41,7 +40,7 @@ In other words, both occurences of the tag get replaced with a number in bracket
  
 <font size="-1">
  
-$more What happens in the case of more than two occurrences of a footnote?
+[1] What happens in the case of more than two occurrences of a footnote?
 One answer is, just don't do that.
 But for completeness' sake, the real answer is: the natural generalization where all but the last occurrence links to the last occurrence and the last occurrence links to the first.
 Specifically, each occurrence gets replaced with one of the following:
@@ -49,8 +48,8 @@ Specifically, each occurrence gets replaced with one of the following:
     <a id="fooX" href="#foo">[N]</a>
     <a id="foo" href="#foo1">[N]</a>
  
-where X is defined such that &dollar;FN[foo] is the Xth occurrence of &dollar;FN[foo].
-All but the last occurrence of &dollar;FN[foo] get replaced with the first version and the last occurrence (taken to be the place where the actual footnote content is given) is replaced with the second version.
+where X is defined such that $FN[foo] is the Xth occurrence of $FN[foo].
+All but the last occurrence of $FN[foo] get replaced with the first version and the last occurrence (taken to be the place where the actual footnote content is given) is replaced with the second version.
 Note that $FN tags and $REF tags get numbered independently but you shouldn't use the same tag foo for both a $FN and a $REF. Various screwiness will happen if you do.
 Using "FOO" for one and "foo" for the other is fine though, since tags are case sensitive.
 </font>
