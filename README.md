@@ -12,7 +12,7 @@ X. Allow old posts to stay in the wordpress editor. (This should be fine now.)
 * [Markdown with Extras](http://michelf.com/projects/php-markdown/extra/ ).
 * [SmartyPants](http://michelf.com/projects/php-smartypants/ ) replacement of ascii quotes with curly quotes and whatnot.
 * URLs that start with "http://" get replaced with hyperlinks.
-* LaTeX-style numbering without numbers, like label/ref. $FN[details]
+* LaTeX-style numbering without numbers, like label/ref.
 
 ---
 
