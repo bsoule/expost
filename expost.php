@@ -76,9 +76,9 @@ function expost_fetch_post_javascript() {
 }
 function expost_load_styles () {
   ?>
-  <link type="text/css" rel="stylesheet" href="<?= 
+  <link type="text/css" rel="stylesheet" href="<?php echo 
     trailingslashit( WP_PLUGIN_URL ) . basename(dirname(__FILE__)) ?>/expost.css" />
-  <?
+  <?php
 }
 
 /* add our form to the admin new-post page */
@@ -96,7 +96,7 @@ function expost_meta_box() {
   ?>
   <div>
     <label for="expost_source">Etherpad source url:</label>
-    <input type="text" name="expost_source" id="expost_source" value="<?= $source ?>" />
+    <input type="text" name="expost_source" id="expost_source" value="<?php echo $source ?>" />
   </div>
   <div id='expost_buttons'>
     <span class='expost-button'>
@@ -108,7 +108,7 @@ function expost_meta_box() {
   </div>
   <div id="expost_content"></div>
   <div class="clearing"></div>
-  <?
+  <?php
 }
 
 // TODO: now that i've solved the empty contents post rejected thing
