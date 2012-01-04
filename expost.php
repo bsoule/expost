@@ -78,7 +78,6 @@ function expost_fetch_post_javascript() {
 }
 function expost_load_styles () {
   ?>
-  <link type="text/css" rel="stylesheet" href="<?php echo
     trailingslashit( WP_PLUGIN_URL ) . basename(dirname(__FILE__)) ?>/expost.css" />
   <?php
 }
