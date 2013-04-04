@@ -88,21 +88,6 @@ function erbstash($content)
   return $ret . $tmp;
 }
 
-# Replace chunks of javascript (<script>...</script>) with MAGIC_JS_PLACEHOLDER
-function jsstash($content)
-{
-  global $jschunks;
-  $tmp = $content;
-  $i = 0;
-  $ret = '';
-  while(preg_match('/^(.*?)\<script\>(.*?)\<\/script\>(.*)$/s', $tmp, $m)) {
-    $ret .= $m[1] . 'MAGIC_JS_PLACEHOLDER';
-    $erbchunks[$i++] = '<%' . $m[2] . '%>';
-    $tmp = $m[3];
-  }
-  return $ret . $tmp;
-}
-
 # Replace MAGIC_ERB_PLACEHOLDER with the stashed chunk of erb
 function erbrestore($content)
 {
@@ -111,6 +96,22 @@ function erbrestore($content)
     $content = preg_replace('/MAGIC_ERB_PLACEHOLDER/', $e, $content, 1);
   }
   return $content;
+}
+
+# Replace chunks of javascript (<script>...</script>) with MAGIC_JS_PLACEHOLDER
+function jsstash($content)
+{
+  global $jschunks;
+  $tmp = $content;
+  $i = 0;
+  $ret = '';
+  while(preg_match('/^(.*?)(\<script[^\>]*\>)(.*?)\<\/script\>(.*)$/s', 
+                   $tmp, $m)) {
+    $ret .= $m[1] . 'MAGIC_JS_PLACEHOLDER';
+    $jschunks[$i++] = $m[2] . $m[3] . '</script>';
+    $tmp = $m[4];
+  }
+  return $ret . $tmp;
 }
 
 # Replace MAGIC_JS_PLACEHOLDER with the stashed chunk of javascript
@@ -145,7 +146,7 @@ $content =
     erbrestore(
       SmartyPants(Markdown(transform(preprocess(
     erbstash(
-  jsstash($content)))))));
+  jsstash($content))))))));
 # http://stuff -> <a href="http://stuff">http://stuff</a>
 $content = preg_replace(
   '/([^\"\'\<\>])(http\:\/\/[^\)\]\s\,\.\<]+(?:\.[^\)\]\s\,\.\<]+)+)/',
