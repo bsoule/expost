@@ -7,6 +7,7 @@ include_once "smartypants.php"; # curly quotes and whatnot
 $expost_num = array(); # map tag to its number
 $expost_fnt = array(); # map tag to number of footnote occurrences for that tag
 $erbchunks  = array(); # list of chunks of erb
+$jschunks   = array(); # list of chunks of javascript
 
 # Take the raw content and compute the above hashes. Also replace $REF[foo] 
 # and $FN[foo] with just $foo.
@@ -87,12 +88,37 @@ function erbstash($content)
   return $ret . $tmp;
 }
 
+# Replace chunks of javascript (<script>...</script>) with MAGIC_JS_PLACEHOLDER
+function jsstash($content)
+{
+  global $jschunks;
+  $tmp = $content;
+  $i = 0;
+  $ret = '';
+  while(preg_match('/^(.*?)\<script\>(.*?)\<\/script\>(.*)$/s', $tmp, $m)) {
+    $ret .= $m[1] . 'MAGIC_JS_PLACEHOLDER';
+    $erbchunks[$i++] = '<%' . $m[2] . '%>';
+    $tmp = $m[3];
+  }
+  return $ret . $tmp;
+}
+
 # Replace MAGIC_ERB_PLACEHOLDER with the stashed chunk of erb
 function erbrestore($content)
 {
   global $erbchunks;
   foreach($erbchunks as $e) {
     $content = preg_replace('/MAGIC_ERB_PLACEHOLDER/', $e, $content, 1);
+  }
+  return $content;
+}
+
+# Replace MAGIC_JS_PLACEHOLDER with the stashed chunk of javascript
+function jsrestore($content)
+{
+  global $jschunks;
+  foreach($jschunks as $e) {
+    $content = preg_replace('/MAGIC_JS_PLACEHOLDER/', $e, $content, 1);
   }
   return $content;
 }
@@ -115,7 +141,11 @@ $content = preg_replace('/^.*?BEGIN_MAGIC(?:\[[^\[\]]*\])?/s', '', $content);
 $content = preg_replace('/END_MAGIC.*/s', '', $content);
 # do references and footnotes and the actual markdown->html and fancy quotes
 $content = 
-  erbrestore(SmartyPants(Markdown(transform(preprocess(erbstash($content))))));
+  jsrestore(
+    erbrestore(
+      SmartyPants(Markdown(transform(preprocess(
+    erbstash(
+  jsstash($content)))))));
 # http://stuff -> <a href="http://stuff">http://stuff</a>
 $content = preg_replace(
   '/([^\"\'\<\>])(http\:\/\/[^\)\]\s\,\.\<]+(?:\.[^\)\]\s\,\.\<]+)+)/',
