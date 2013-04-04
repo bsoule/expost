@@ -160,7 +160,7 @@ function expost_fetch_post_contents( $source ) {
   $data = array();
 
   $ep = basename( $source ); 
-  $expost_url = "http://yootles.com/expost/$ep?htmlwrap=0";
+  $expost_url = "http://yootles.com/expost/$ep?htmlwrap=0&htmltitle=0";
   return file_get_contents($expost_url);
 
 }
