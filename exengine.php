@@ -9,8 +9,8 @@ $expost_fnt = array(); # map tag to number of footnote occurrences for that tag
 $erbchunks  = array(); # list of chunks of erb
 $jschunks   = array(); # list of chunks of javascript
 
-# Take the raw content and compute the above hashes. Also replace $REF[foo] 
-# and $FN[foo] with just $foo.
+# Take the raw content and compute expost_num & expost_fnt hashes. 
+# Also replace $REF[foo] and $FN[foo] with just $foo.
 function preprocess($content)
 {
   global $expost_num;
@@ -99,6 +99,9 @@ function erbrestore($content)
 }
 
 # Replace chunks of javascript (<script>...</script>) with MAGIC_JS_PLACEHOLDER
+# (this wouldn't be necessary but for a markdown bug that barfs on the following
+# because of the "<bar":
+#   <script> var x = 1*2; if(foo<bar) print 2*2; </script>
 function jsstash($content)
 {
   global $jschunks;
