@@ -1,4 +1,6 @@
 <?php
+# We might want to replace this file with the latest version:
+# https://github.com/michelf/php-markdown/blob/lib/Michelf/MarkdownExtra.php
 #
 # Markdown Extra  -  A text-to-HTML conversion tool for web writers
 #

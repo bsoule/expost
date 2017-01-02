@@ -1,7 +1,13 @@
 #!/bin/sh
 
-# We deploy this by copying *.php and *.css to /var/www/expost on padm.us
-# Also make expost.php there be a symlink to exengine.php
+# We deploy this by copying the following files to /var/www/expost on padm.us:
+#   index.php
+#   exengine.php
+#   markdowne.php
+#   smartypants.php
+#   expost.css
+# Also make a symlink there from expost.php to exengine.php
+
 
 # Here's the nginx config for expost.padm.us:
 # 
@@ -24,7 +30,7 @@
 #   location ~ \.php$ {
 #     fastcgi_pass   localhost:9000; # port where FastCGI processes were spawned
 #     fastcgi_index  index.php;
-#     fastcgi_param  SCRIPT_FILENAME    /var/www/expost$fastcgi_script_name;  # same path as above
+#     fastcgi_param  SCRIPT_FILENAME    /var/www/expost$fastcgi_script_name;
 # 
 #     fastcgi_param  QUERY_STRING       $query_string;
 #     fastcgi_param  REQUEST_METHOD     $request_method;

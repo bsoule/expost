@@ -127,7 +127,7 @@ function jsrestore($content)
   return $content;
 }
 
-$htmlwrap = isset($_REQUEST['htmlwrap']) ? $_REQUEST['htmlwrap'] : true;
+$htmlwrap  = isset($_REQUEST['htmlwrap'])  ? $_REQUEST['htmlwrap']  : true;
 $htmltitle = isset($_REQUEST['htmltitle']) ? $_REQUEST['htmltitle'] : true;
 $ep = $_REQUEST['pad'] or $ep = 'expost';
 
