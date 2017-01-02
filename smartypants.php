@@ -1,5 +1,6 @@
 <?php
-
+# May want to replace this with the latest version from
+# https://github.com/michelf/php-smartypants/blob/lib/Michelf/SmartyPants.php
 #
 # SmartyPants  -  Smart punctuation for web sites
 #

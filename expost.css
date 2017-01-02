@@ -136,6 +136,9 @@ ol.nom {
 .nom li.grn{ background-color: #57ac1b; }
 a.nom{ color: black; text-decoration: none; }
 
+/* this h4.def and dd p thing hasn't been part of expost in production for years
+ * all the way to 2017 but was in the local copy of this file all along.
+ * so i'm not sure if we actually want this or not */
 h4.def{
   margin-bottom:0px;
   -webkit-margin-after:0px;
