@@ -131,7 +131,7 @@ $htmlwrap  = isset($_REQUEST['htmlwrap'])  ? $_REQUEST['htmlwrap']  : true;
 $htmltitle = isset($_REQUEST['htmltitle']) ? $_REQUEST['htmltitle'] : true;
 $ep = $_REQUEST['pad'] or $ep = 'expost';
 
-$epurl = "http://padm.us/$ep/export/txt";
+$epurl = "https://padm.us/$ep/export/txt";
 $content = file_get_contents($epurl);
 
 # strip out markers like BEGINWC[foo] and ENDWC[foo]
