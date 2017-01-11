@@ -152,7 +152,7 @@ $content =
   jsstash($content))))))));
 # http://stuff -> <a href="http://stuff">http://stuff</a>
 $content = preg_replace(
-  '/([^\"\'\<\>])(http\:\/\/[^\)\]\s\,\.\<]+(?:\.[^\)\]\s\,\.\<]+)+)/',
+  '/([^\"\'\<\>])(https?\:\/\/[^\)\]\s\,\.\<]+(?:\.[^\)\]\s\,\.\<]+)+)/',
   "$1<a href=\"$2\">$2</a>", $content);
 
 if($htmlwrap) {
@@ -169,7 +169,7 @@ if($htmlwrap) {
   }});
 </script>
 <script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 EOS;
