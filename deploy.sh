@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # We deploy this by copying the following files to /var/www/expost on padm.us:
+# PS: now on the new digital ocean server and lives at /home/etherpad/expost
 #   index.php
 #   exengine.php
 #   markdowne.php
