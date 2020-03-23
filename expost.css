@@ -1,30 +1,31 @@
-/* Originally based on http://code.google.com/p/better-web-readability-project/
- * with modifications by dreeves and bsoule, usually to be more like
- * http://lab.arc90.com/experiments/readability/ */
-
-body { 
-  /* font-family: arial, helvetica, sans-serif; */
-  font: normal normal normal 15px/normal 'Times New Roman'; /* newyorker */
-  font-size:17px;                                           /* newyorker */
-  line-height:25px;                                         /* newyorker */
-  background-color:#FFFEF0;  
-  max-width:820px;
+body {
+  font-family: verdana, sans-serif;
+  /* font: normal normal normal 15px/normal 'Times New Roman'; */
+  /* font-family: "Lucida Console", Monaco, monospace; */
+  font-size: 17px;  
+  line-height: 25px;
+  max-width: 820px;
   margin: 1em auto; 
   padding: 0 1em;
-  text-align:justify;
+  text-align: justify;
 }
 
-div.sidebar {  /* actually called pull-quotes; this one is deprecated */
-  width:300px;
-  font-size:1.4em;
-  line-height:1em;
-  font-style:italic;
-  float:right;
-  margin: 0 0 10px 30px;
-  padding:.1em; 
-  text-align:left;
+h1,h2,h3,h4,h5,h6 { text-align:left; }
+
+/* Bulleted and numbered lists look too squished without this */
+li { line-height: 25px; }
+
+blockquote { 
+  /* padding: 1em 10% 1.625em 10%; */ /* top right bot left */
+  padding-left:  10%;
+  padding-right: 10%;
+  /*font-style:italic;*/
 }
 
+/* We do <img class="aligncenter"> on Beeminder blog & MessyMatters */
+img.aligncenter { display:block; margin: 5px auto; text-align:center; }
+
+/* We do <h4 class="pullquote" on Beeminder blog & MessyMatters */
 .pullquote {
   display:inline;
   padding:10px;
@@ -46,75 +47,14 @@ div.sidebar {  /* actually called pull-quotes; this one is deprecated */
   font-weight:normal;
 }
 
-p { padding: 0 0 0.0125em 0; color:#111; font-weight:300; }  /* was .8125em */
-
-p.first:first-letter { 
-  float:left;
-  /* font-family: baskerville, "palatino linotype", serif; */
-  font-size:3em;
-  font-weight:700;
-  line-height:1em;
-  margin-bottom:-0.2em;
-  padding: 0.2em 0.1em 0 0; }
-
-/*
-p img       { float:left;  margin: 0.5em 0.8125em 0.8125em 0; padding:0; }
-p img.right { float:right; margin: 0.5em 0 0.8125em 0.8125em }
-*/
-img.aligncenter { display:block; margin: 5px auto; text-align:center; }
-/* img             { padding:1em; } */
-
-h1 { display:block; width:100%; border-bottom: 1px solid #333; 
-     font-size:1.2em; padding-bottom:.5em; margin-bottom:.75em; }
-/* h1    { font-size:2.0em; margin-bottom:0.765em; line-height:1em } */
-h2    { font-size:1.5em;   margin-bottom:0.855em; }
-h3    { font-size:1.17em;  margin-bottom:0.956em; }
-h4    { font-size:1.0em;   margin-bottom:1.161em; }
-h5,h6 { font-size:1.0em;   margin-bottom:1.238em; }
-
-/*
-ul     { list-style-position:outside; }
-li ul, 
-*/
-/*
-li ol  { margin: 0 1.625em;  }
-ul, ol { margin: 0 0 1.625em 0; }
-*/
-
-dl    { margin: 0 0 1.625em 0; }
-dl dt { font-weight:bold; }
-dl dd { margin-left:1.625em; }
-
-a { color:#005AF2; text-decoration:none; }
-a:hover { text-decoration:underline; }
-
+/* This is what looked good for the table in the Nominology post */
 table    { margin-bottom:1.625em; border-collapse:collapse; }
 th       { font-weight:bold; }
 tr,th,td { margin:0; padding: 0 1.625em 0 1em; height:26px; }
 tfoot    { font-style:italic; }
 caption  { text-align:center; font-family: Georgia, serif; }
 
-abbr, acronym { border-bottom: 1px dotted #000; }
-address { margin-top:1.625em; font-style:italic; }
-del { color:#000; }
-
-blockquote { 
-  padding: 1em 1em 1.625em 1em; 
-  /* font-family: georgia, serif; */
-  font-style:italic; }
-/* blockquote:before { content:"\201C";font-size:3em;margin-left:-.625em; font-family:georgia,serif;color:#aaa;line-height:0;} */  /* From Tripoli  */
-blockquote > p { padding:0; margin:0; }
-
-strong  { font-weight:bold; }
-em, dfn { font-style:italic; }
-dfn     { font-weight:bold; }
-/* pre, code { margin: 1.625em 0; white-space: pre; }
-pre, code, tt { font: 1em monospace; line-height: 1.5; } */
-pre, code, tt { font-family: "Lucida Console", Monaco; font-size:95% }
-/* tt { display: block; margin: 1.625em 0; } */
-hr { margin-bottom:1.625em; }
-
-/* nominology graphic */
+/* Nominology graphic */
 ol.nom {
   display: inline-block;
   margin: 0px;
@@ -136,9 +76,124 @@ ol.nom {
 .nom li.grn{ background-color: #57ac1b; }
 a.nom{ color: black; text-decoration: none; }
 
-/* this h4.def and dd p thing hasn't been part of expost in production for years
- * all the way to 2017 but was in the local copy of this file all along.
- * so i'm not sure if we actually want this or not */
+
+/* Scratch Area */
+
+/* Handy little indicator while debugging / fussing with CSS
+body::after {
+  content: "[v1453]";
+  font-size: 8px;
+  float: right;
+  color: gray;
+}
+*/
+
+/* Now using the pullquote one instead of this
+div.sidebar {
+  width:300px;
+  font-size:1.4em;
+  line-height:1em;
+  font-style:italic;
+  float:right;
+  margin: 0 0 10px 30px;
+  padding:.1em; 
+  text-align:left;
+}
+*/
+
+/*
+li {
+  margin-bottom: 4px;
+  margin-top:    4px;
+  margin-left:   22px;
+  margin-right:  22px;
+}
+*/
+
+/*
+p { padding: 0 0 0.0125em 0; color:#111; font-weight:300; }
+*/
+
+/*
+p.first:first-letter { 
+  float:left;
+  font-size:3em;
+  font-weight:700;
+  line-height:1em;
+  margin-bottom:-0.2em;
+  padding: 0.2em 0.1em 0 0; }
+*/
+
+/*
+p img       { float:left;  margin: 0.5em 0.8125em 0.8125em 0; padding:0; }
+p img.right { float:right; margin: 0.5em 0 0.8125em 0.8125em }
+*/
+/* img             { padding:1em; } */
+
+/*
+h1 { display:block; width:100%; border-bottom: 1px solid #333; 
+     font-size:1.2em; padding-bottom:.5em; margin-bottom:.75em; 
+     font-weight:bold; }
+*/
+/* h1    { font-size:2.0em; margin-bottom:0.765em; line-height:1em } */
+/*
+h2    { font-size:1.5em;  margin-bottom:0.855em; font-style:normal; font-weight:bold;}
+h3    { font-size:1.17em; margin-bottom:0.956em; font-style:normal; font-weight:bold;}
+h4    { font-size:1.0em;  margin-bottom:1.161em; font-style:normal; font-weight:bold;}
+h5,h6 { font-size:1.0em;  margin-bottom:1.238em; font-style:normal; font-weight:bold;}
+*/
+
+/*
+ul     { list-style-position:outside; }
+li ul, 
+*/
+/*
+li ol  { margin: 0 1.625em;  }
+ul, ol { margin: 0 0 1.625em 0; }
+*/
+
+/*
+dl    { margin: 0 0 1.625em 0; }
+dl dt { font-weight:bold; }
+dl dd { margin-left:1.625em; }
+
+a { color:#005AF2; text-decoration:none; }
+a:hover { text-decoration:underline; }
+*/
+
+
+/*
+abbr, acronym { border-bottom: 1px dotted #000; }
+address { margin-top:1.625em; font-style:italic; }
+del { color:#000; }
+*/
+
+/*
+blockquote > p { padding:0; margin:0; }
+*/
+
+/*
+strong  { font-weight:bold; }
+em, dfn { font-style:italic; }
+dfn     { font-weight:bold; }
+*/
+
+/*
+pre, code, tt {
+  font-family: "Lucida Console", Monaco; 
+  font-size:95%;
+}
+*/
+
+/*
+hr { margin-bottom:1.625em; }
+*/
+
+/* This h4.def and dd p thing hasn't been part of expost in production for years
+ * all the way to 2017 but was in the local copy of this file all along. So I'm
+ * not sure if we actually want this or not. PS: Removed again 2020-03-23 so
+ * probably safe to remove if we haven't noticed anything that cares about this.
+/*
 h4.def{
   margin-bottom:0px;
   -webkit-margin-after:0px;
@@ -146,9 +201,12 @@ h4.def{
 dd p {
   margin-top: 0px;
 }
+*/
 
-/* SCRATCH AREA. SCHDEL. 
 
+/* Super ancient scratch area below */
+
+/*
 p + p { text-indent:1.625em;} 
 
 .oldbook { 
