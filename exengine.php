@@ -154,14 +154,15 @@ $content =
 $content = preg_replace(
   '/([^\"\'\<\>])(https?\:\/\/[^\)\]\s\,\.\<]+(?:\.[^\)\]\s\,\.\<]+)+)/',
   "$1<a href=\"$2\">$2</a>", $content);
+$descrip = substr(strip_tags($content), 0, 160) . "...";
 
 if($htmlwrap) {
-  echo "<html> <head> ";
-  echo '<meta charset="utf-8" />';
-  echo "<title>";
-  echo $title;
-  echo "</title>\n";
-  echo <<<EOS
+  $htmlhead = <<<MAGIC_EOS
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>$title</title>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {
     inlineMath: [['\\\\(','\\\\)']],
@@ -172,9 +173,21 @@ if($htmlwrap) {
   src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
-EOS;
-  echo '<link rel="stylesheet" href="expost.css" type="text/css"/>';
-  echo "</head> <body>\n";
+<meta name="description" content="$descrip">
+<link id="favicon" rel="icon" 
+      href="https://doc.beeminder.com/favicon.ico" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- <link rel="stylesheet" href="pygments.css"> -->
+<!-- <link rel="stylesheet" href="latex.css"> -->
+<link rel="stylesheet" href="expost.css">
+</head>
+<body>
+
+MAGIC_EOS;
+  echo sprintf($htmlhead, $title, $descrip);
 }
 if($title!=="" && $htmltitle) echo "<h1>$title</h1>\n";
 echo $content;
