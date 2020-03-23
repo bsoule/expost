@@ -1,4 +1,19 @@
 #!/bin/sh
+# Just copy the files to the DigitalOcean server!
+# There should be a symlink there from expost.php to exengine.php
+
+scp               \
+  index.php       \
+  exengine.php    \
+  markdowne.php   \
+  smartypants.php \
+  expost.css      \
+  pygments.css    \
+  latex.css       \
+  root@padm.us:/home/etherpad/expost
+
+
+
 
 # We deploy this by copying the following files to /var/www/expost on padm.us:
 # PS: now on the new digital ocean server and lives at /home/etherpad/expost
