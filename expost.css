@@ -1,80 +1,90 @@
-body {
-  font-family: verdana, sans-serif;
-  /* font: normal normal normal 15px/normal 'Times New Roman'; */
-  /* font-family: "Lucida Console", Monaco, monospace; */
-  font-size: 17px;  
-  line-height: 25px;
-  max-width: 820px;
-  margin: 1em auto; 
-  padding: 0 1em;
-  text-align: justify;
-}
+/* font-family: "Lucida Console", Monaco, monospace; */
 
-h1,h2,h3,h4,h5,h6 { text-align:left; }
+/* Fuss, fuss. This is what seems to look good. */
+body { font-family: verdana, sans-serif;
+       font-size:   17px;  
+       line-height: 25px;
+       max-width:   820px;
+       margin:      1em auto; 
+       padding:     0 1em;
+       text-align:  justify;             }
+
+/* Otherwise it tries to justify headers on mobile */
+h1,h2,h3,h4,h5,h6 { text-align: left; }
 
 /* Bulleted and numbered lists look too squished without this */
 li { line-height: 25px; }
 
-blockquote { 
-  /* padding: 1em 10% 1.625em 10%; */ /* top right bot left */
-  padding-left:  10%;
-  padding-right: 10%;
-  /*font-style:italic;*/
-}
+/* Fuss, fuss. This is what seems to look good. */
+blockquote { padding-left:  5%;
+             padding-right: 15%; }
 
 /* We do <img class="aligncenter"> on Beeminder blog & MessyMatters */
-img.aligncenter { display:block; margin: 5px auto; text-align:center; }
+img.aligncenter { display:    block; 
+                  margin:     5px auto; 
+                  text-align: center;   }
+
+/* Deprecated. What we meant was the html5 <aside> tag.
+   Do <div class="sidebar"> like, eg, on doc.bmndr.com/conservaround */
+div.sidebar { border-style:  solid;
+              border-width:  1px;
+              border-radius: 5px;
+              padding:       25px 25px;
+              margin:        50px 50px;
+              float:         right;     }
+
+aside { background-color: #f5f5f5;  /* #f5f5f5 is what code blocks have */
+        border-style:     solid;
+        border-width:     1px;
+        border-radius:    5px;
+        padding:          25px 25px;
+        margin:           50px 50px;
+        float:            right;     }
 
 /* We do <h4 class="pullquote" on Beeminder blog & MessyMatters */
-.pullquote {
-  display:inline;
-  padding:10px;
-  float:right;
-  width:250px;
-  margin-top:10px;
-  margin-bottom:10px;
-  margin-left:20px;
-  border-top-width:2px;
-  border-bottom-width:2px;
-  border-top-style:solid;
-  border-bottom-style:solid;
-  border-top-color:#694e1c;
-  border-bottom-color:#694e1c;
-  font-size:21px;
-  line-height:1.25em;
-  text-align:left;
-  font-style:italic;
-  font-weight:normal;
-}
+.pullquote { display:             inline;
+             padding:             10px;
+             float:               right;
+             width:               250px;
+             margin-top:          10px;
+             margin-bottom:       10px;
+             margin-left:         20px;
+             border-top-width:    2px;
+             border-bottom-width: 2px;
+             border-top-style:    solid;
+             border-bottom-style: solid;
+             border-top-color:    #694e1c;
+             border-bottom-color: #694e1c;
+             font-size:           21px;
+             line-height:         1.25em;
+             text-align:          left;
+             font-style:          italic;
+             font-weight:         normal;  }
 
-/* This is what looked good for the table in the Nominology post */
-table    { margin-bottom:1.625em; border-collapse:collapse; }
-th       { font-weight:bold; }
-tr,th,td { margin:0; padding: 0 1.625em 0 1em; height:26px; }
-tfoot    { font-style:italic; }
-caption  { text-align:center; font-family: Georgia, serif; }
+/* This is what looked good for the table in the Nominology post I guess */
+table    { margin-bottom: 1.625em; border-collapse: collapse; }
+th       { font-weight: bold; }
+tr,th,td { margin: 0; padding: 0 1.625em 0 1em; height: 26px; }
+tfoot    { font-style: italic; }
+caption  { text-align: center; font-family: Georgia, serif; }
 
 /* Nominology graphic */
-ol.nom {
-  display: inline-block;
-  margin: 0px;
-  font-size: 16px;
-  border-right: 1px solid black;
-  font-family: Helvetica;
-}
-.nom li {
-  float: left;
-  list-style: none;
-  border-bottom: 1px solid black;
-  border-left: 1px solid black;
-  border-top: 1px solid black;
-  padding: 5px 7px;
-}
-.nom li.name{ font-family: serif; }
-.nom li.red{ background-color: #f83535; }
-.nom li.yel{ background-color: yellow; }
-.nom li.grn{ background-color: #57ac1b; }
-a.nom{ color: black; text-decoration: none; }
+ol.nom {  display:       inline-block;
+          margin:        0px;
+          font-size:     16px;
+          border-right:  1px solid black;
+          font-family:   Helvetica;       }
+.nom li { float:         left;
+          list-style:    none;
+          border-bottom: 1px solid black;
+          border-left:   1px solid black;
+          border-top:    1px solid black;
+          padding:       5px 7px;         }
+.nom li.name { font-family:      serif; }
+.nom li.red  { background-color: #f83535; }
+.nom li.yel  { background-color: yellow; }
+.nom li.grn  { background-color: #57ac1b; }
+a.nom        { color: black; text-decoration: none; }
 
 
 /* Scratch Area */
