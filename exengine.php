@@ -11,6 +11,7 @@ $jschunks   = array(); # list of chunks of javascript
 
 # Take the raw content and compute expost_num & expost_fnt hashes. 
 # Also replace $REF[foo] and $FN[foo] with just $foo.
+# Also do other replacements that make sense.
 function preprocess($content)
 {
   global $expost_num;
@@ -19,6 +20,7 @@ function preprocess($content)
   $j = 0; # tracks the numbers for tags defined with $FN
   $ret = ''; # transformed content to return
   foreach(explode("\n", $content) as $x) {
+    $x = preg_replace('/^~~~/', '```', $x, 1); # for code blocks
     while(preg_match('/\$(REF|FN)\[([^\]]*)\]/', $x, $m)) {
       $f = $m[1];
       $tag = $m[2];
