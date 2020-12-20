@@ -9,9 +9,12 @@ $expost_fnt = array(); # map tag to number of footnote occurrences for that tag
 $erbchunks  = array(); # list of chunks of erb
 $jschunks   = array(); # list of chunks of javascript
 
+################################################################################
+################################## FUNCTIONS ###################################
+################################################################################
+
 # Take the raw content and compute expost_num & expost_fnt hashes. 
 # Also replace $REF[foo] and $FN[foo] with just $foo.
-# Also do other replacements that make sense.
 function preprocess($content)
 {
   global $expost_num;
@@ -20,7 +23,6 @@ function preprocess($content)
   $j = 0; # tracks the numbers for tags defined with $FN
   $ret = ''; # transformed content to return
   foreach(explode("\n", $content) as $x) {
-    $x = preg_replace('/^~~~/', '```', $x, 1); # for code blocks
     while(preg_match('/\$(REF|FN)\[([^\]]*)\]/', $x, $m)) {
       $f = $m[1];
       $tag = $m[2];
@@ -129,12 +131,20 @@ function jsrestore($content)
   return $content;
 }
 
+################################################################################
+##################################### MAIN #####################################
+################################################################################
+
 $htmlwrap  = isset($_REQUEST['htmlwrap'])  ? $_REQUEST['htmlwrap']  : true;
 $htmltitle = isset($_REQUEST['htmltitle']) ? $_REQUEST['htmltitle'] : true;
 $ep = $_REQUEST['pad'] or $ep = 'expost';
 
 $epurl = "https://padm.us/$ep/export/txt";
 $content = file_get_contents($epurl);
+
+################################################################################
+############################### TRANSFORMATIONS ################################
+################################################################################
 
 # strip out markers like BEGINWC[foo] and ENDWC[foo]
 $content = preg_replace('/(?:BEGINWC|ENDWC)\[[^\[\]]*\]/', '', $content);
@@ -145,6 +155,8 @@ $title = trim($matches[1]);
 $content = preg_replace('/^.*?BEGIN_MAGIC(?:\[[^\[\]]*\])?/s', '', $content);
 # throw out everything after END_MAGIC
 $content = preg_replace('/END_MAGIC.*/s', '', $content);
+# turn ```LANGUAGENAME into ~~~ cuz that's how our markdown engine does codeblox
+$content = preg_replace('/\n```\w*\n/', "\n~~~\n", $content);
 # do references and footnotes and the actual markdown->html and fancy quotes
 $content = 
   jsrestore(
@@ -156,6 +168,11 @@ $content =
 $content = preg_replace(
   '/([^\"\'\<\>])(https?\:\/\/[^\)\]\s\,\.\<]+(?:\.[^\)\]\s\,\.\<]+)+)/',
   "$1<a href=\"$2\">$2</a>", $content);
+
+################################################################################
+################################ GENERATE HTML #################################
+################################################################################
+
 $descrip = substr(strip_tags($content), 0, 160) . "...";
 
 if($htmlwrap) {
