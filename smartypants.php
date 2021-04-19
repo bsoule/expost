@@ -15,8 +15,8 @@
 #
 
 
-global	$SmartyPantsPHPVersion, $SmartyPantsSyntaxVersion,
-		$smartypants_attr, $sp_tags_to_skip;
+global $SmartyPantsPHPVersion, $SmartyPantsSyntaxVersion,
+       $smartypants_attr, $sp_tags_to_skip;
 
 $SmartyPantsPHPVersion    = '1.5.1e'; # Fru 9 Dec 2005
 $SmartyPantsSyntaxVersion = '1.5.1';  # Fri 12 Mar 2004
@@ -24,10 +24,10 @@ $SmartyPantsSyntaxVersion = '1.5.1';  # Fri 12 Mar 2004
 
 # Configurable variables:
 $smartypants_attr = "1";  # Change this to configure.
-						  #  1 =>  "--" for em-dashes; no en-dash support
-						  #  2 =>  "---" for em-dashes; "--" for en-dashes
-						  #  3 =>  "--" for em-dashes; "---" for en-dashes
-						  #  See docs for more configuration options.
+                          #  1 =>  "--" for em-dashes; no en-dash support
+                          #  2 =>  "---" for em-dashes; "--" for en-dashes
+                          #  3 =>  "--" for em-dashes; "---" for en-dashes
+                          #  See docs for more configuration options.
 
 # Globals:
 $sp_tags_to_skip = '<(/?)(?:pre|code|kbd|script|math)[\s>]';

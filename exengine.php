@@ -148,15 +148,23 @@ $content = file_get_contents($epurl);
 
 # strip out markers like BEGINWC[foo] and ENDWC[foo]
 $content = preg_replace('/(?:BEGINWC|ENDWC)\[[^\[\]]*\]/', '', $content);
+
 # fetch the title from the BEGIN_MAGIC[blah blah the title] line
 preg_match('/^.*?BEGIN_MAGIC(?:\[([^\[\]]*)\])?/s', $content, $matches);
 $title = trim($matches[1]);
+
 # throw out everything before BEGIN_MAGIC
 $content = preg_replace('/^.*?BEGIN_MAGIC(?:\[[^\[\]]*\])?/s', '', $content);
+
 # throw out everything after END_MAGIC
 $content = preg_replace('/END_MAGIC.*/s', '', $content);
+
 # turn ```LANGUAGENAME into ~~~ cuz that's how our markdown engine does codeblox
 $content = preg_replace('/\n```\w*\n/', "\n~~~\n", $content);
+
+# turn " -- " into "&thinsp;&mdash;&thinsp;"
+$content = preg_replace('/ \-\- /', '&thinsp;&mdash;&thinsp;', $content);
+
 # do references and footnotes and the actual markdown->html and fancy quotes
 $content = 
   jsrestore(
@@ -164,6 +172,7 @@ $content =
       SmartyPants(Markdown(transform(preprocess(
     erbstash(
   jsstash($content))))))));
+
 # http://stuff -> <a href="http://stuff">http://stuff</a>
 $content = preg_replace(
   '/([^\"\'\<\>])(https?\:\/\/[^\)\]\s\,\.\<]+(?:\.[^\)\]\s\,\.\<]+)+)/',
