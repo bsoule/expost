@@ -140,7 +140,20 @@ $htmltitle = isset($_REQUEST['htmltitle']) ? $_REQUEST['htmltitle'] : true;
 $ep = $_REQUEST['pad'] or $ep = 'expost';
 
 $epurl = "https://padm.us/$ep/export/txt";
-$content = file_get_contents($epurl);
+
+set_error_handler(
+  function ($severity, $message, $file, $line) {
+    throw new ErrorException($message, $severity, $severity, $file, $line);
+  }
+);
+try {
+  $content = file_get_contents($epurl);
+}
+catch (Exception $e) {
+  $content = "<pre>ERROR: failed to fetch $epurl\n\n{$e->getMessage()}</pre>";
+}
+restore_error_handler();
+
 
 ################################################################################
 ############################### TRANSFORMATIONS ################################
@@ -162,9 +175,6 @@ $content = preg_replace('/END_MAGIC.*/s', '', $content);
 # turn ```LANGUAGENAME into ~~~ cuz that's how our markdown engine does codeblox
 $content = preg_replace('/\n```\w*\n/', "\n~~~\n", $content);
 
-# turn " -- " into "&thinsp;&mdash;&thinsp;"
-$content = preg_replace('/ \-\- /', '&thinsp;&mdash;&thinsp;', $content);
-
 # do references and footnotes and the actual markdown->html and fancy quotes
 $content = 
   jsrestore(
@@ -177,6 +187,14 @@ $content =
 $content = preg_replace(
   '/([^\"\'\<\>])(https?\:\/\/[^\)\]\s\,\.\<]+(?:\.[^\)\]\s\,\.\<]+)+)/',
   "$1<a href=\"$2\">$2</a>", $content);
+
+# turn " -- " into "&thinsp;&mdash;&thinsp;"
+# (oops, caused problems, eg, the following broke:
+#   blah blah -- "thing in quotes" -- blah blah
+# )
+# might be ok if done after markdown/smartpants/etc? trying that now...
+#$content = preg_replace('/ \-\- /', '&thinsp;&mdash;&thinsp;', $content);
+$content = preg_replace('/ \&\#8212\; /', '&thinsp;&mdash;&thinsp;', $content);
 
 ################################################################################
 ################################ GENERATE HTML #################################
