@@ -147,10 +147,14 @@ set_error_handler(
   }
 );
 try {
-  $content = file_get_contents($epurl);
+  # Something spontaneously broke on 2022-06-21 and this patches it
+  $epurltmp = preg_replace('/https:/', 'http:', $epurl, 1);
+  $content = file_get_contents($epurltmp);
 }
 catch (Exception $e) {
-  $content = "<pre>ERROR: failed to fetch $epurl\n\n{$e->getMessage()}</pre>";
+  # Don't show show the padm.us URL in the error message
+  $maskedurl = preg_replace('/padm\.us/', 'EPURL', $epurl, 1);
+  $content = "<pre>ERROR: failed to fetch $maskedurl\n\n{$e->getMessage()}</pre>";
 }
 restore_error_handler();
 
