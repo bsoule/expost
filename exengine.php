@@ -206,7 +206,50 @@ $content = preg_replace('/ \&\#8212\; /', '&thinsp;&mdash;&thinsp;', $content);
 
 $descrip = substr(strip_tags($content), 0, 160) . "...";
 
+# Maybe we want to strip newlines from $descrip so it looks less janky in
+# previews.
+
 if($htmlwrap) {
+  $htmlhead = <<<MAGIC_EOS
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" 
+      href="https://doc.beeminder.com/favicon.ico" type="image/x-icon">
+<title>$title</title>
+
+<!-- Meta tags for SEO and Open Graph link previews -->
+<!-- <link rel="canonical" href="https://doc.bmndr.co..." /> -->
+<meta name="description" content="$descrip">
+<meta name="robots" content="index,follow" />
+<meta property="og:title" content="$title" />
+<meta property="og:type" content="article" />
+<!-- <meta property="og:url" content="https://doc.bmndr.co..." /> -->
+<meta property="og:description" content="$descrip" />
+<meta property="og:image" content="https://doc.beeminder.com/favicon.ico" />
+<meta name="twitter:card" content="summary" />
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+<link rel="stylesheet" href="https://latex.now.sh/style.css">
+<!-- <link rel="stylesheet" href="pygments.css"> -->
+<!-- <link rel="stylesheet" href="latex.css"> -->
+<link rel="stylesheet" href="expost.css">
+</head>
+<body>
+
+MAGIC_EOS;
+  echo sprintf($htmlhead, $title, $descrip);
+}
+if($title!=="" && $htmltitle) echo "<h1>$title</h1>\n";
+echo $content;
+if($htmlwrap) echo "\n</body> </html>";
+
+/* Original html head:
   $htmlhead = <<<MAGIC_EOS
 <html>
 <head>
@@ -237,10 +280,42 @@ if($htmlwrap) {
 <body>
 
 MAGIC_EOS;
-  echo sprintf($htmlhead, $title, $descrip);
-}
-if($title!=="" && $htmltitle) echo "<h1>$title</h1>\n";
-echo $content;
-if($htmlwrap) echo "\n</body> </html>";
 
+And the new one:
+
+  $htmlhead = <<<MAGIC_EOS
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link id="favicon" rel="icon" 
+      href="https://doc.beeminder.com/favicon.ico" type="image/x-icon">
+<title>$title</title>
+
+<!-- Meta tags for SEO and Open Graph link previews -->
+<!-- <link rel="canonical" href="https://doc.bmndr.co..." /> -->
+<meta name="description" content="$descrip">
+<meta name="robots" content="index,follow" />
+<meta property="og:title" content="$title" />
+<meta property="og:type" content="article" />
+<!-- <meta property="og:url" content="https://doc.bmndr.co..." /> -->
+<meta property="og:description" content="$descrip" />
+<meta property="og:image" content="https://doc.beeminder.com/favicon.ico" />
+<meta name="twitter:card" content="summary" />
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+<link rel="stylesheet" href="https://latex.now.sh/style.css">
+<!-- <link rel="stylesheet" href="pygments.css"> -->
+<!-- <link rel="stylesheet" href="latex.css"> -->
+<link rel="stylesheet" href="expost.css">
+</head>
+<body>
+
+MAGIC_EOS;
+
+*/
 ?>

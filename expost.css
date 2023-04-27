@@ -1,25 +1,47 @@
-/* Idea: https://latex.now.sh/ but with bigger font size */
+/* We're getting most of our CSS from latex.css */
 
-/* font-family: "Lucida Console", Monaco, monospace; */
+/* Handy little indicator especially while debugging / fussing with CSS */
+body::after {
+  content: "Rendered by Expost v2023.02.17c";
+  color: #999999;
+  font-size: 8px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
 
-/* Fuss, fuss. This is what seems to look good. */
-body { font-family: verdana, sans-serif;
-       font-size:   17px;  
-       line-height: 25px;
-       max-width:   820px;
-       margin:      1em auto; 
-       padding:     0 1em;
-       text-align:  justify;             }
+body {
+  /* font-family: verdana, sans-serif; */ /* more webby, less latex-y */
+  background-color: #fcfcff;
+  color: #1a1c1e;
+  font-size: 19px; /* bigger than latex.css's default */
+}
+
+/* Shrink this enough so it doesn't horizontal-scroll as long as it's 80chars */
+pre, code {
+  font-size: 73%;
+}
+
+/* Fuss, fuss. This is what seems to look good.
+body { 
+  font-family: verdana, sans-serif;
+  font-size:   17px;  
+  line-height: 25px;
+  max-width:   820px;
+  margin:      1em auto; 
+  padding:     0 1em;
+  text-align:  justify;
+} */
 
 /* Otherwise it tries to justify headers on mobile */
-h1,h2,h3,h4,h5,h6 { text-align: left; }
+/* h1,h2,h3,h4,h5,h6 { text-align: left; } */
 
 /* Bulleted and numbered lists look too squished without this */
-li { line-height: 25px; }
+/* li { line-height: 25px; } */
 
 /* Fuss, fuss. This is what seems to look good. */
-blockquote { padding-left:  5%;
-             padding-right: 15%; }
+/* blockquote { padding-left:  5%;
+             padding-right: 15%; } */
 
 /* We do <img class="aligncenter"> on Beeminder blog & MessyMatters */
 img.aligncenter { display:    block; 
@@ -90,15 +112,6 @@ a.nom        { color: black; text-decoration: none; }
 
 
 /* Scratch Area */
-
-/* Handy little indicator while debugging / fussing with CSS
-body::after {
-  content: "[v1453]";
-  font-size: 8px;
-  float: right;
-  color: gray;
-}
-*/
 
 /* Now using the pullquote one instead of this
 div.sidebar {
