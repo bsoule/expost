@@ -110,6 +110,26 @@ ol.nom {  display:       inline-block;
 .nom li.grn  { background-color: #57ac1b; }
 a.nom        { color: black; text-decoration: none; }
 
+/* style for a list with cute bee-icon bullets */
+.beelist {
+  list-style: none;
+  padding-inline-start: 1rem;
+}
+.beelist li {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 10px;
+}
+.beelist li:before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background-image: url('https://s.w.org/images/core/emoji/14.0.0/svg/1f41d.svg');
+    background-size: contain;
+    background-position: center;
+    left: 0;
+}
 
 /* Scratch Area */
 
