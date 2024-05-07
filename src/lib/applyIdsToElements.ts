@@ -2,9 +2,8 @@ import getDom from "./getDom.js";
 
 function apply(html: string) {
   const { document } = getDom(html);
-
   const matches = document.querySelectorAll(
-    "*:not(script):not(noscript):not(style):not(:empty)"
+    "*:not(script):not(noscript):not(style)"
   );
 
   matches.forEach((el) => {
