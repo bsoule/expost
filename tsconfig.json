@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "verbatimModuleSyntax": true,
+    "types": ["vitest/importMeta"],
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true
+  }
+}

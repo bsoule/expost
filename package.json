@@ -3,13 +3,28 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "lint": "eslint .",
+    "checkTs": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/sanitize-html": "^2.11.0",
+    "eslint": "^9.2.0",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0",
     "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "happy-dom": "^14.10.1",
+    "marked": "^12.0.2",
+    "marked-smartypants": "^1.1.6",
+    "memize": "^2.1.0",
+    "sanitize-html": "^2.13.0",
+    "zod": "^3.23.6"
   }
 }
