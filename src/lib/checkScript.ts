@@ -7,6 +7,7 @@ const URLS = [
   "https://zapier.com/zapbook/embed/widget.js?iframe=true&guided_zaps=301,302,336",
   "https://ifttt.com/assets/embed_recipe.js",
   "https://www.google.com/trends/embed.js?hl=en-US&q=beeminder,+stickk&date=11/2007+97m&cmpt=q&tz=Etc/GMT%2B7&tz=Etc/GMT%2B7&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=500&h=330",
+  "https://static.polldaddy.com/p/4021608.js", // SOURCE: doc.bmndr.co/akrasia/
 ];
 
 export default function checkScript(
