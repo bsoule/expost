@@ -1,6 +1,6 @@
 import { type IOptions } from "sanitize-html";
-import checkIframe from "../lib/checkIframe.js";
-import checkScript from "../lib/checkScript.js";
+import checkIframe from "./checkIframe.js";
+import checkScript from "./checkScript.js";
 
 export const SANITIZE_HTML_OPTIONS: IOptions = {
   allowedAttributes: {
