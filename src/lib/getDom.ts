@@ -19,7 +19,7 @@ const getDom = memoize((html: string) => {
     },
   });
 
-  window.document.body.innerHTML = html;
+  window.document.body.innerText = html;
 
   return window;
 });
