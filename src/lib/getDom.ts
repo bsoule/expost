@@ -1,4 +1,4 @@
-import { Window } from "happy-dom";
+import * as cheerio from "cheerio";
 import memoize from "./memoize.js";
 
 const { error } = console;
@@ -9,19 +9,7 @@ console.error = (...args: unknown[]) => {
 };
 
 const getDom = memoize((html: string) => {
-  const window = new Window({
-    settings: {
-      disableJavaScriptFileLoading: true,
-      disableJavaScriptEvaluation: true,
-      disableCSSFileLoading: true,
-      disableIframePageLoading: true,
-      disableComputedStyleRendering: true,
-    },
-  });
-
-  window.document.body.innerText = html;
-
-  return window;
+  return cheerio.load(html, null, false);
 });
 
 export default getDom;
