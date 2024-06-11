@@ -2,6 +2,7 @@ import addBlankLines from "./addBlankLines.js";
 import trimContent from "./trimContent.js";
 import linkFootnotes from "./linkFootnotes.js";
 import expandRefs from "./expandRefs.js";
+import spaceEMDashes from "./spaceEMDashes.js";
 import { marked } from "marked";
 import { markedSmartypants } from "marked-smartypants";
 import applyIdsToElements from "./applyIdsToElements.js";
@@ -47,6 +48,7 @@ export async function parseMarkdown(
   const c3 = linkFootnotes(c2);
   const c4 = expandRefs(c3);
   const html = await marked.parse(c4);
+  const html_spaced = spaceEMDashes(html);
 
-  return sanitizeHtml(html, SANITIZE_HTML_OPTIONS);
+  return sanitizeHtml(html_spaced, SANITIZE_HTML_OPTIONS);
 }
