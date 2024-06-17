@@ -12,7 +12,7 @@ import { SANITIZE_HTML_OPTIONS } from "./parseMarkdown.options.js";
 marked.use(
   markedSmartypants({
     config: "1",
-  })
+  }),
 );
 
 marked.use({
@@ -25,7 +25,7 @@ marked.use({
 
 export async function parseMarkdown(
   markdown: string,
-  { strict = true }: { strict?: boolean } = {}
+  { strict = true }: { strict?: boolean } = {},
 ): Promise<string> {
   if (strict) {
     if (!markdown.includes("BEGIN_MAGIC")) {
@@ -38,7 +38,7 @@ export async function parseMarkdown(
 
     if (/(?<!\n)\n<!--/gm.test(markdown)) {
       throw new Error(
-        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line."
+        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line.",
       );
     }
   }
@@ -47,8 +47,21 @@ export async function parseMarkdown(
   const c2 = addBlankLines(c1);
   const c3 = linkFootnotes(c2);
   const c4 = expandRefs(c3);
-  const html = await marked.parse(c4);
-  const html_spaced = spaceEMDashes(html);
 
-  return sanitizeHtml(html_spaced, SANITIZE_HTML_OPTIONS);
+  const renderer = new marked.Renderer();
+  const oldLinkRender = renderer.link;
+
+  renderer.link = function (href, title, text) {
+    const emailRegex = /^mailto:\S+@\S+\.\S+$/;
+    if (emailRegex.test(href)) {
+      return text;
+    }
+
+    return oldLinkRender(href, title, text);
+  };
+
+  const html = await marked.parse(c4, { renderer });
+  const htmlSpaced = spaceEMDashes(html);
+
+  return sanitizeHtml(htmlSpaced, SANITIZE_HTML_OPTIONS);
 }

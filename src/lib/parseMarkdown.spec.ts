@@ -7,7 +7,7 @@ describe("body", () => {
     const r = await parseMarkdown(
       ether({
         content: "foo -- bar",
-      })
+      }),
     );
 
     // https://www.codetable.net/name/em-dash
@@ -27,8 +27,8 @@ describe("body", () => {
       parseMarkdown(
         ether({
           content: "<script></script>",
-        })
-      )
+        }),
+      ),
     ).rejects.toThrow();
   });
 
@@ -37,8 +37,8 @@ describe("body", () => {
       parseMarkdown(
         ether({
           content: "<script>console.log('hello')</script>",
-        })
-      )
+        }),
+      ),
     ).rejects.toThrow();
   });
 
@@ -47,12 +47,12 @@ describe("body", () => {
       parseMarkdown(
         ether({
           content: "<style>body {font-size: 2em;}</style>",
-        })
-      )
+        }),
+      ),
     ).resolves.toEqual(
       expect.stringContaining(
-        "&lt;style&gt;body {font-size: 2em;}&lt;/style&gt;"
-      )
+        "&lt;style&gt;body {font-size: 2em;}&lt;/style&gt;",
+      ),
     );
   });
 
@@ -61,8 +61,8 @@ describe("body", () => {
       parseMarkdown(
         ether({
           content: `<iframe src="https://www.example.com"></iframe>`,
-        })
-      )
+        }),
+      ),
     ).rejects.toThrow("Iframe src not allowed");
   });
 
@@ -70,11 +70,11 @@ describe("body", () => {
     const r = await parseMarkdown(
       ether({
         content: `<img src="https://blog.beeminder.com/image.png" title="the_title" />`,
-      })
+      }),
     );
 
     expect(r).toContain(
-      `<img src="https://blog.beeminder.com/image.png" title="the_title" />`
+      `<img src="https://blog.beeminder.com/image.png" title="the_title" />`,
     );
   });
 
@@ -82,11 +82,11 @@ describe("body", () => {
     const r = await parseMarkdown(
       ether({
         content: `<img src="https://blog.beeminder.com/image.png" alt="the_alt" />`,
-      })
+      }),
     );
 
     expect(r).toContain(
-      `<img src="https://blog.beeminder.com/image.png" alt="the_alt" />`
+      `<img src="https://blog.beeminder.com/image.png" alt="the_alt" />`,
     );
   });
 
@@ -94,11 +94,11 @@ describe("body", () => {
     const r = await parseMarkdown(
       ether({
         content: `<img src="https://blog.beeminder.com/image.png" alt="the_alt" title="the_title" />`,
-      })
+      }),
     );
 
     expect(r).toContain(
-      `<img src="https://blog.beeminder.com/image.png" alt="the_alt" title="the_title" />`
+      `<img src="https://blog.beeminder.com/image.png" alt="the_alt" title="the_title" />`,
     );
   });
 
@@ -106,9 +106,18 @@ describe("body", () => {
     const r = await parseMarkdown(
       ether({
         content: `<a class="footnote" id="DC21" href="#DC2">[2]</a>`,
-      })
+      }),
     );
 
     expect(r).toContain('<a class="footnote" id="DC21" href="#DC2">[2]</a>');
+  });
+
+  it("does not autolink emails", async () => {
+    const r = await parseMarkdown(
+      ether({
+        content: "foo@example.com",
+      }),
+    );
+    expect(r).toContain("<p>foo@example.com</p>");
   });
 });
