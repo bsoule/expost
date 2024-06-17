@@ -61,7 +61,7 @@ export async function parseMarkdown(
   };
 
   const html = await marked.parse(c4, { renderer });
-  const html_spaced = spaceEMDashes(html);
+  const htmlSpaced = spaceEMDashes(html);
 
-  return sanitizeHtml(html_spaced, SANITIZE_HTML_OPTIONS);
+  return sanitizeHtml(htmlSpaced, SANITIZE_HTML_OPTIONS);
 }
