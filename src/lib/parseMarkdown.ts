@@ -12,7 +12,7 @@ import { SANITIZE_HTML_OPTIONS } from "./parseMarkdown.options.js";
 marked.use(
   markedSmartypants({
     config: "1",
-  })
+  }),
 );
 
 marked.use({
@@ -25,7 +25,7 @@ marked.use({
 
 export async function parseMarkdown(
   markdown: string,
-  { strict = true }: { strict?: boolean } = {}
+  { strict = true }: { strict?: boolean } = {},
 ): Promise<string> {
   if (strict) {
     if (!markdown.includes("BEGIN_MAGIC")) {
@@ -38,7 +38,7 @@ export async function parseMarkdown(
 
     if (/(?<!\n)\n<!--/gm.test(markdown)) {
       throw new Error(
-        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line."
+        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line.",
       );
     }
   }
