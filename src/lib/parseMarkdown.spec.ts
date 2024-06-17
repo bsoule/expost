@@ -111,4 +111,13 @@ describe("body", () => {
 
     expect(r).toContain('<a class="footnote" id="DC21" href="#DC2">[2]</a>');
   });
+
+  it("does not autolink emails", async () => {
+    const r = await parseMarkdown(
+      ether({
+        content: "foo@example.com",
+      }),
+    );
+    expect(r).toContain("<p>foo@example.com</p>");
+  });
 });

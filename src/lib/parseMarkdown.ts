@@ -47,7 +47,20 @@ export async function parseMarkdown(
   const c2 = addBlankLines(c1);
   const c3 = linkFootnotes(c2);
   const c4 = expandRefs(c3);
-  const html = await marked.parse(c4);
+
+  const renderer = new marked.Renderer();
+  const oldLinkRender = renderer.link;
+
+  renderer.link = function (href, title, text) {
+    const emailRegex = /^mailto:\S+@\S+\.\S+$/;
+    if (emailRegex.test(href)) {
+      return text;
+    }
+
+    return oldLinkRender(href, title, text);
+  };
+
+  const html = await marked.parse(c4, { renderer });
   const html_spaced = spaceEMDashes(html);
 
   return sanitizeHtml(html_spaced, SANITIZE_HTML_OPTIONS);
