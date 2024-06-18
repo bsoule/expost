@@ -3,6 +3,7 @@ import trimContent from "./trimContent.js";
 import linkFootnotes from "./linkFootnotes.js";
 import expandRefs from "./expandRefs.js";
 import spaceEMDashes from "./spaceEMDashes.js";
+import flattenParagraphs from "./flattenParagraphs.js";
 import { marked, type Tokens } from "marked";
 import { markedSmartypants } from "marked-smartypants";
 import applyIdsToElements from "./applyIdsToElements.js";
@@ -89,6 +90,7 @@ export async function parseMarkdown(
 
   const html = await marked.parse(c4, { renderer });
   const htmlSpaced = spaceEMDashes(html);
+  const htmlFlattened = flattenParagraphs(htmlSpaced);
 
-  return sanitizeHtml(htmlSpaced, SANITIZE_HTML_OPTIONS);
+  return sanitizeHtml(htmlFlattened, SANITIZE_HTML_OPTIONS);
 }

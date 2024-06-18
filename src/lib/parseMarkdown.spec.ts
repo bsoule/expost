@@ -132,4 +132,14 @@ describe("body", () => {
       '[moved to <a href="http://example.com/foo">http://example.com/foo</a>]',
     );
   });
+
+  it("doesn't try to nest paragraphs", async () => {
+    const r = await parseMarkdown(
+      ether({
+        content: "<p>\n\nfoo</p>",
+      }),
+    );
+
+    expect(r).toEqual("<p>foo</p>\n");
+  });
 });
