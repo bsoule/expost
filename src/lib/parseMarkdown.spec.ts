@@ -120,4 +120,16 @@ describe("body", () => {
     );
     expect(r).toContain("<p>foo@example.com</p>");
   });
+
+  it("permits closing brackets after urls", async () => {
+    const r = await parseMarkdown(
+      ether({
+        content: "[moved to http://example.com/foo]",
+      }),
+    );
+
+    expect(r).toContain(
+      '[moved to <a href="http://example.com/foo">http://example.com/foo</a>]',
+    );
+  });
 });

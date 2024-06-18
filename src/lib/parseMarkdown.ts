@@ -3,11 +3,38 @@ import trimContent from "./trimContent.js";
 import linkFootnotes from "./linkFootnotes.js";
 import expandRefs from "./expandRefs.js";
 import spaceEMDashes from "./spaceEMDashes.js";
-import { marked } from "marked";
+import { marked, type Tokens } from "marked";
 import { markedSmartypants } from "marked-smartypants";
 import applyIdsToElements from "./applyIdsToElements.js";
 import sanitizeHtml from "sanitize-html";
 import { SANITIZE_HTML_OPTIONS } from "./parseMarkdown.options.js";
+
+const tokenizer = {
+  url(src: string): Tokens.Link | false {
+    const urlRegex = /^https?:\/\/[^\s\]]+/;
+    const match = src.match(urlRegex);
+
+    if (match) {
+      return {
+        type: "link",
+        raw: match[0],
+        href: match[0],
+        text: match[0],
+        tokens: [
+          {
+            type: "text",
+            raw: match[0],
+            text: match[0],
+          },
+        ],
+      };
+    }
+
+    return false;
+  },
+};
+
+marked.use({ tokenizer });
 
 marked.use(
   markedSmartypants({
