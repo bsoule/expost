@@ -51,7 +51,7 @@ marked.use({
   } as any,
 });
 
-export async function parseMarkdown(
+export function parseMarkdown(
   markdown: string,
   { strict = true }: { strict?: boolean } = {},
 ): Promise<string> {
@@ -88,7 +88,7 @@ export async function parseMarkdown(
     return oldLinkRender(href, title, text);
   };
 
-  const html = await marked.parse(c4, { renderer });
+  const html = marked.parse(c4, { renderer });
   const htmlSpaced = spaceEMDashes(html);
   const htmlFlattened = flattenParagraphs(htmlSpaced);
 
