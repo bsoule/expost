@@ -142,4 +142,14 @@ describe("body", () => {
 
     expect(r).toEqual("<p>foo</p>\n");
   });
+
+  it("allows inputs to have the \"checked\" attribute", () => {
+    const r = parseMarkdown(
+      ether({
+        content: "<input type=\"checkbox\" checked />"
+      }),
+    );
+
+    expect(r).toContain("<input type=\"checkbox\" checked />");
+  });
 });

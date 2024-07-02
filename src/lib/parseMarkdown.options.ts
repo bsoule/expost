@@ -33,7 +33,7 @@ export const SANITIZE_HTML_OPTIONS: IOptions = {
       "mozallowfullscreen",
     ],
     img: ["src", "alt", "width", "height", "caption", "cite"],
-    input: ["type", "name", "value"],
+    input: ["type", "name", "value", "checked"],
     script: ["src", "type", "async", "charset"],
     ol: ["start"],
     table: ["border", "cellpadding", "cellspacing"],
