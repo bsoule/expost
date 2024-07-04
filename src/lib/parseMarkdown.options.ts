@@ -115,6 +115,7 @@ export const SANITIZE_HTML_OPTIONS: IOptions = {
     "hgroup",
     "main",
     "nav",
+    "noscript",
     "section",
     "script",
     "blockquote",
