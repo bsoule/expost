@@ -3,16 +3,44 @@ import trimContent from "./trimContent.js";
 import linkFootnotes from "./linkFootnotes.js";
 import expandRefs from "./expandRefs.js";
 import spaceEMDashes from "./spaceEMDashes.js";
-import { marked } from "marked";
+import flattenParagraphs from "./flattenParagraphs.js";
+import { marked, type Tokens } from "marked";
 import { markedSmartypants } from "marked-smartypants";
 import applyIdsToElements from "./applyIdsToElements.js";
 import sanitizeHtml from "sanitize-html";
 import { SANITIZE_HTML_OPTIONS } from "./parseMarkdown.options.js";
 
+const tokenizer = {
+  url(src: string): Tokens.Link | false {
+    const urlRegex = /^https?:\/\/[^\s\]]+/;
+    const match = src.match(urlRegex);
+
+    if (match) {
+      return {
+        type: "link",
+        raw: match[0],
+        href: match[0],
+        text: match[0],
+        tokens: [
+          {
+            type: "text",
+            raw: match[0],
+            text: match[0],
+          },
+        ],
+      };
+    }
+
+    return false;
+  },
+};
+
+marked.use({ tokenizer });
+
 marked.use(
   markedSmartypants({
     config: "1",
-  }),
+  })
 );
 
 marked.use({
@@ -23,10 +51,10 @@ marked.use({
   } as any,
 });
 
-export async function parseMarkdown(
+export function parseMarkdown(
   markdown: string,
-  { strict = true }: { strict?: boolean } = {},
-): Promise<string> {
+  { strict = true }: { strict?: boolean } = {}
+): string {
   if (strict) {
     if (!markdown.includes("BEGIN_MAGIC")) {
       throw new Error("No BEGIN_MAGIC found");
@@ -38,7 +66,7 @@ export async function parseMarkdown(
 
     if (/(?<!\n)\n<!--/gm.test(markdown)) {
       throw new Error(
-        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line.",
+        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line."
       );
     }
   }
@@ -60,8 +88,13 @@ export async function parseMarkdown(
     return oldLinkRender(href, title, text);
   };
 
-  const html = await marked.parse(c4, { renderer });
-  const htmlSpaced = spaceEMDashes(html);
+  // WORKAROUND: `marked.parse` shouldn't return a promise if
+  // the `async` option has not been set to `true`
+  // https://marked.js.org/using_pro#async
+  const html = marked.parse(c4, { renderer }) as string;
 
-  return sanitizeHtml(htmlSpaced, SANITIZE_HTML_OPTIONS);
+  const htmlSpaced = spaceEMDashes(html);
+  const htmlFlattened = flattenParagraphs(htmlSpaced);
+
+  return sanitizeHtml(htmlFlattened, SANITIZE_HTML_OPTIONS);
 }

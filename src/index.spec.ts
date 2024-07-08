@@ -4,16 +4,16 @@ import ether from "./lib/test/ether.js";
 
 describe("index", () => {
   describe("parseMarkdown", () => {
-    it("should work", async () => {
-      const result = await parseMarkdown(ether({ content: "# foo" }));
+    it("should work", () => {
+      const result = parseMarkdown(ether({ content: "# foo" }));
 
       expect(result).toContain("<h1>");
     });
 
-    it("should honor strict option false", async () => {
-      await expect(
+    it("should honor strict option false", () => {
+      expect(
         parseMarkdown("# foo", { strict: false })
-      ).resolves.toContain("<h1>");
+      ).toContain("<h1>");
     });
   });
 
