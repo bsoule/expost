@@ -40,7 +40,7 @@ marked.use({ tokenizer });
 marked.use(
   markedSmartypants({
     config: "1",
-  }),
+  })
 );
 
 marked.use({
@@ -53,8 +53,8 @@ marked.use({
 
 export function parseMarkdown(
   markdown: string,
-  { strict = true }: { strict?: boolean } = {},
-): Promise<string> {
+  { strict = true }: { strict?: boolean } = {}
+): string {
   if (strict) {
     if (!markdown.includes("BEGIN_MAGIC")) {
       throw new Error("No BEGIN_MAGIC found");
@@ -66,7 +66,7 @@ export function parseMarkdown(
 
     if (/(?<!\n)\n<!--/gm.test(markdown)) {
       throw new Error(
-        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line.",
+        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line."
       );
     }
   }
@@ -88,7 +88,11 @@ export function parseMarkdown(
     return oldLinkRender(href, title, text);
   };
 
-  const html = marked.parse(c4, { renderer });
+  // WORKAROUND: `marked.parse` shouldn't return a promise if
+  // the `async` option has not been set to `true`
+  // https://marked.js.org/using_pro#async
+  const html = marked.parse(c4, { renderer }) as string;
+
   const htmlSpaced = spaceEMDashes(html);
   const htmlFlattened = flattenParagraphs(htmlSpaced);
 
