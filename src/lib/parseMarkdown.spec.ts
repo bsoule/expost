@@ -151,5 +151,25 @@ describe("body", () => {
     );
 
     expect(r).toContain("<input type=\"checkbox\" checked />");
+
+  it("escapes special characters in tables", () => {
+    expect(
+      parseMarkdown(["| foo |", "| --- |", "| <PPR |"].join("\n"), {
+        strict: false,
+      }),
+    ).toBe(
+      [
+        "<table>",
+        "<thead>",
+        "<tr>",
+        "<th>foo</th>",
+        "</tr>",
+        "</thead>",
+        "<tbody><tr>",
+        "<td>&lt;PPR</td>",
+        "</tr>",
+        "</tbody></table>\n",
+      ].join("\n"),
+    );
   });
 });

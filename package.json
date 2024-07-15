@@ -22,8 +22,8 @@
   "dependencies": {
     "cheerio": "1.0.0-rc.12",
     "marked": "^12.0.2",
-    "marked-smartypants": "^1.1.6",
     "memize": "^2.1.0",
-    "sanitize-html": "^2.13.0"
+    "sanitize-html": "^2.13.0",
+    "smartypants": "^0.2.2"
   }
 }
