@@ -11,9 +11,7 @@ describe("index", () => {
     });
 
     it("should honor strict option false", () => {
-      expect(
-        parseMarkdown("# foo", { strict: false })
-      ).toContain("<h1>");
+      expect(parseMarkdown("# foo", { strict: false })).toContain("<h1>");
     });
   });
 
@@ -32,7 +30,7 @@ helle world`;
     it("returns blogmorphosis title", () => {
       const content = `BEGIN_MAGIC[Ditching WordPress and a Shiny Blog Redesign]`;
       expect(parseTitle(content)).toBe(
-        "Ditching WordPress and a Shiny Blog Redesign"
+        "Ditching WordPress and a Shiny Blog Redesign",
       );
     });
   });

@@ -24,7 +24,8 @@ describe("body", () => {
 
   it("disallows inline script tags", () => {
     expect(
-      parseMarkdown.bind(null,
+      parseMarkdown.bind(
+        null,
         ether({
           content: "<script></script>",
         }),
@@ -34,7 +35,8 @@ describe("body", () => {
 
   it("disallows inline script tags with content", () => {
     expect(
-      parseMarkdown.bind(null,
+      parseMarkdown.bind(
+        null,
         ether({
           content: "<script>console.log('hello')</script>",
         }),
@@ -58,7 +60,8 @@ describe("body", () => {
 
   it("parse error includes sanitizeHTML error message", () => {
     expect(
-      parseMarkdown.bind(null,
+      parseMarkdown.bind(
+        null,
         ether({
           content: `<iframe src="https://www.example.com"></iframe>`,
         }),
@@ -143,13 +146,34 @@ describe("body", () => {
     expect(r).toEqual("<p>foo</p>\n");
   });
 
-  it("allows inputs to have the \"checked\" attribute", () => {
+  it('allows inputs to have the "checked" attribute', () => {
     const r = parseMarkdown(
       ether({
-        content: "<input type=\"checkbox\" checked />"
+        content: '<input type="checkbox" checked />',
       }),
     );
 
-    expect(r).toContain("<input type=\"checkbox\" checked />");
+    expect(r).toContain('<input type="checkbox" checked />');
+  });
+
+  it("escapes special characters in tables", () => {
+    expect(
+      parseMarkdown(["| foo |", "| --- |", "| <PPR |"].join("\n"), {
+        strict: false,
+      }),
+    ).toBe(
+      [
+        "<table>",
+        "<thead>",
+        "<tr>",
+        "<th>foo</th>",
+        "</tr>",
+        "</thead>",
+        "<tbody><tr>",
+        "<td>&lt;PPR</td>",
+        "</tr>",
+        "</tbody></table>\n",
+      ].join("\n"),
+    );
   });
 });

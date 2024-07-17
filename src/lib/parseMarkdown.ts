@@ -5,7 +5,7 @@ import expandRefs from "./expandRefs.js";
 import spaceEMDashes from "./spaceEMDashes.js";
 import flattenParagraphs from "./flattenParagraphs.js";
 import { marked, type Tokens } from "marked";
-import { markedSmartypants } from "marked-smartypants";
+import { smartypants } from "smartypants";
 import applyIdsToElements from "./applyIdsToElements.js";
 import sanitizeHtml from "sanitize-html";
 import { SANITIZE_HTML_OPTIONS } from "./parseMarkdown.options.js";
@@ -37,11 +37,13 @@ const tokenizer = {
 
 marked.use({ tokenizer });
 
-marked.use(
-  markedSmartypants({
-    config: "1",
-  })
-);
+marked.use({
+  hooks: {
+    postprocess(html) {
+      return smartypants(html, "1");
+    },
+  },
+});
 
 marked.use({
   hooks: {
@@ -53,7 +55,7 @@ marked.use({
 
 export function parseMarkdown(
   markdown: string,
-  { strict = true }: { strict?: boolean } = {}
+  { strict = true }: { strict?: boolean } = {},
 ): string {
   if (strict) {
     if (!markdown.includes("BEGIN_MAGIC")) {
@@ -66,7 +68,7 @@ export function parseMarkdown(
 
     if (/(?<!\n)\n<!--/gm.test(markdown)) {
       throw new Error(
-        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line."
+        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line.",
       );
     }
   }
