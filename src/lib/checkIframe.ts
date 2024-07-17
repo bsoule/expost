@@ -15,7 +15,7 @@ const URLS = [
 
 export default function checkIframe(
   tagName: string | undefined,
-  attribs: sanitize.Attributes
+  attribs: sanitize.Attributes,
 ) {
   if (tagName !== "iframe") {
     throw new Error("Expected iframe");
@@ -30,7 +30,7 @@ export default function checkIframe(
         "\r\n" +
         "\r\n" +
         "ESCAPED Iframe -- " +
-        src
+        src,
     );
   }
 

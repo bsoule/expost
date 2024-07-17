@@ -6,7 +6,7 @@ describe("linkFootnotes", () => {
     const result = linkFootnotes("$FN[foo] $FN[foo]");
 
     expect(result).toContain(
-      '<a class="footnote" id="foo1" href="#foo">[1]</a>'
+      '<a class="footnote" id="foo1" href="#foo">[1]</a>',
     );
   });
 
@@ -14,7 +14,7 @@ describe("linkFootnotes", () => {
     const result = linkFootnotes("$FN[foo] $FN[foo]");
 
     expect(result).toContain(
-      '<a class="footnote" id="foo" href="#foo1">[1]</a>'
+      '<a class="footnote" id="foo" href="#foo1">[1]</a>',
     );
   });
 
@@ -22,7 +22,7 @@ describe("linkFootnotes", () => {
     const result = linkFootnotes("$foo $FN[foo]");
 
     expect(result).toContain(
-      '<a class="footnote" id="foo1" href="#foo">[1]</a>'
+      '<a class="footnote" id="foo1" href="#foo">[1]</a>',
     );
   });
 
@@ -30,7 +30,7 @@ describe("linkFootnotes", () => {
     const result = linkFootnotes("$FN[foo] $foo");
 
     expect(result).toContain(
-      '<a class="footnote" id="foo" href="#foo1">[1]</a>'
+      '<a class="footnote" id="foo" href="#foo1">[1]</a>',
     );
   });
 
@@ -38,7 +38,7 @@ describe("linkFootnotes", () => {
     const result = linkFootnotes("$FN[foo] $foo $foo");
 
     expect(result).toContain(
-      '<a class="footnote" id="foo2" href="#foo">[1]</a>'
+      '<a class="footnote" id="foo2" href="#foo">[1]</a>',
     );
   });
 
@@ -46,7 +46,7 @@ describe("linkFootnotes", () => {
     const result = linkFootnotes("$FN[foo] $foo $FN[bar] $bar");
 
     expect(result).toContain(
-      '<a class="footnote" id="bar1" href="#bar">[2]</a>'
+      '<a class="footnote" id="bar1" href="#bar">[2]</a>',
     );
   });
 

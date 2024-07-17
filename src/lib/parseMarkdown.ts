@@ -55,7 +55,7 @@ marked.use({
 
 export function parseMarkdown(
   markdown: string,
-  { strict = true }: { strict?: boolean } = {}
+  { strict = true }: { strict?: boolean } = {},
 ): string {
   if (strict) {
     if (!markdown.includes("BEGIN_MAGIC")) {
@@ -68,7 +68,7 @@ export function parseMarkdown(
 
     if (/(?<!\n)\n<!--/gm.test(markdown)) {
       throw new Error(
-        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line."
+        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line.",
       );
     }
   }
