@@ -176,4 +176,15 @@ describe("body", () => {
       ].join("\n"),
     );
   });
+
+  it("uses correct quotation marks", () => {
+    expect(
+      parseMarkdown(
+        'For a lot of engineering problems, "almost right" isn\'t good enough.',
+        { strict: false },
+      ),
+    ).toBe(
+      "<p>For a lot of engineering problems, &#8220;almost right&#8221; isn&#8217;t good enough.</p>\n",
+    );
+  });
 });

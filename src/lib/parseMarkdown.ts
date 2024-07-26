@@ -38,6 +38,19 @@ const tokenizer = {
 marked.use({ tokenizer });
 
 marked.use({
+  tokenizer: {
+    inlineText(src) {
+      // don't escape inlineText, unless it's < and >
+      const cap = this.rules.inline.text.exec(src);
+      const text = cap[0].replace("<", "&lt;").replace(">", "&gt;");
+
+      return {
+        type: "text",
+        raw: text,
+        text: text,
+      };
+    },
+  },
   hooks: {
     postprocess(html) {
       return smartypants(html, "1");
