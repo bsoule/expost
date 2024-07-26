@@ -91,6 +91,7 @@ export const SANITIZE_HTML_OPTIONS: IOptions = {
     mtr: ["rowalign"],
     munder: ["accentunder"],
     munderover: ["accent", "accentunder"],
+    progress: ["value"],
   },
   disallowedTagsMode: "escape",
   parser: {
@@ -175,6 +176,7 @@ export const SANITIZE_HTML_OPTIONS: IOptions = {
     "iframe",
     "kbd",
     "mark",
+    "progress",
     "q",
     "rb",
     "rp",
