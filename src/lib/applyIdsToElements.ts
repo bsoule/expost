@@ -5,22 +5,18 @@ function apply(html: string) {
   const matches = $("*").not("script").not("noscript").not("style");
 
   matches.each((_, el) => {
-    if ($(el).children().length) return;
-    if (!$(el).text().length) return;
+    const elHtml = $(el).html();
+    if (!elHtml || !$(el).text().includes("{#")) return;
 
-    const idText = $(el)
-      .text()
-      .match(/\{#(.*)\}/)?.[1];
+    const idTextMatch = elHtml.match(/\{#(.*)\}/);
+    const idText = idTextMatch ? idTextMatch[1] : null;
 
     if (!idText) return;
 
-    const newTextContent = $(el)
-      .text()
-      .replace(/\{#([^}]*?)\}/g, "")
-      .trim();
+    const newHtmlContent = elHtml.replace(/\{#([^}]*?)\}/g, "").trim();
 
     $(el).attr("id", idText);
-    $(el).text(newTextContent);
+    $(el).html(newHtmlContent);
   });
 
   return $.html();
