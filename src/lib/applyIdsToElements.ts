@@ -29,7 +29,7 @@ function apply(html: string) {
     }
   });
 
-  return $.html();
+  return $.html({ decodeEntities: false }); // Preserve HTML entities
 }
 
 export default function applyIdsToElements(html: string): string {
