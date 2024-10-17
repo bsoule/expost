@@ -19,4 +19,16 @@ describe("applyIdsToElements", () => {
 
     expect(r).toContain('&lt;a id="foo1" href="#foo"&gt;[N]&lt;/a&gt;');
   });
+
+  it("leaves comments intact", () => {
+    const r = applyIdsToElements("<!-- {#foo} -->\n<p>bar</p>");
+
+    expect(r).toContain("<!-- {#foo} -->");
+  });
+
+  it("leaves multiline comments intact", () => {
+    const r = applyIdsToElements("<!-- {#foo}\nbar -->\n<p>baz</p>");
+
+    expect(r).toContain("<!-- {#foo}\nbar -->");
+  });
 });
