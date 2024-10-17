@@ -31,4 +31,10 @@ describe("applyIdsToElements", () => {
 
     expect(r).toContain("<!-- {#foo}\nbar -->");
   });
+
+  it("does not aggressively apply ids to parents", () => {
+    const r = applyIdsToElements("<div><p>{#foo}bar</p></div>");
+
+    expect(r).toBe('<div><p id="foo">bar</p></div>');
+  });
 });

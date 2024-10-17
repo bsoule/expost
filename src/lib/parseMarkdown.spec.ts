@@ -187,4 +187,14 @@ describe("body", () => {
       "<p>For a lot of engineering problems, &#8220;almost right&#8221; isn&#8217;t good enough.</p>\n"
     );
   });
+
+  it("handles inline code blocks", () => {
+    const r = parseMarkdown(
+      ether({
+        content: "foo `bar` baz",
+      })
+    );
+
+    expect(r).toContain("<p>foo <code>bar</code> baz</p>");
+  });
 });

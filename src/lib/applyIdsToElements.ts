@@ -6,17 +6,27 @@ function apply(html: string) {
 
   matches.each((_, el) => {
     const elHtml = $(el).html();
-    if (!elHtml || !$(el).text().includes("{#")) return;
+    if (!elHtml) return;
 
-    const idTextMatch = elHtml.match(/\{#(.*)\}/);
-    const idText = idTextMatch ? idTextMatch[1] : null;
+    // Check if the element itself contains the ID pattern
+    const idMatch = elHtml.match(/\{#(.*?)\}/);
+    if (!idMatch) return;
 
-    if (!idText) return;
+    const idText = idMatch[1];
+    const newHtmlContent = elHtml.replace(/\{#(.*?)\}/, "").trim();
 
-    const newHtmlContent = elHtml.replace(/\{#([^}]*?)\}/g, "").trim();
-
-    $(el).attr("id", idText);
-    $(el).html(newHtmlContent);
+    // Ensure the ID is applied to the correct element
+    if (
+      $(el)
+        .contents()
+        .filter(
+          (_, node) =>
+            node.nodeType === 3 && node.nodeValue?.includes(`{#${idText}}`)
+        ).length > 0
+    ) {
+      $(el).attr("id", idText);
+      $(el).html(newHtmlContent);
+    }
   });
 
   return $.html();
