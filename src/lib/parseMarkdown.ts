@@ -4,71 +4,18 @@ import linkFootnotes from "./linkFootnotes.js";
 import expandRefs from "./expandRefs.js";
 import spaceEMDashes from "./spaceEMDashes.js";
 import flattenParagraphs from "./flattenParagraphs.js";
-import { marked, type Tokens } from "marked";
-import { smartypants } from "smartypants";
-import applyIdsToElements from "./applyIdsToElements.js";
+import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 import { SANITIZE_HTML_OPTIONS } from "./parseMarkdown.options.js";
+import smartypants from "./markedExtentions/smartypants.js";
+import urls from "./markedExtentions/urls.js";
+import ids from "./markedExtentions/ids.js";
 
-const tokenizer = {
-  url(src: string): Tokens.Link | false {
-    const urlRegex = /^https?:\/\/[^\s\]]+/;
-    const match = src.match(urlRegex);
-
-    if (match) {
-      return {
-        type: "link",
-        raw: match[0],
-        href: match[0],
-        text: match[0],
-        tokens: [
-          {
-            type: "text",
-            raw: match[0],
-            text: match[0],
-          },
-        ],
-      };
-    }
-
-    return false;
-  },
-};
-
-marked.use({ tokenizer });
-
-marked.use({
-  tokenizer: {
-    inlineText(src) {
-      // don't escape inlineText, unless it's < and >
-      const cap = this.rules.inline.text.exec(src);
-      const text = cap[0].replace("<", "&lt;").replace(">", "&gt;");
-
-      return {
-        type: "text",
-        raw: text,
-        text: text,
-      };
-    },
-  },
-  hooks: {
-    postprocess(html) {
-      return smartypants(html, "1");
-    },
-  },
-});
-
-marked.use({
-  hooks: {
-    postprocess: applyIdsToElements,
-    // WORKAROUND: @types/marked incorrectly requires `preprocess` to be defined.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } as any,
-});
+marked.use(urls, smartypants, ids);
 
 export function parseMarkdown(
   markdown: string,
-  { strict = true }: { strict?: boolean } = {},
+  { strict = true }: { strict?: boolean } = {}
 ): string {
   if (strict) {
     if (!markdown.includes("BEGIN_MAGIC")) {
@@ -81,7 +28,7 @@ export function parseMarkdown(
 
     if (/(?<!\n)\n<!--/gm.test(markdown)) {
       throw new Error(
-        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line.",
+        "Failed due to comment syntax error in post. Please make sure all HTML comments are preceeded by a new line."
       );
     }
   }
