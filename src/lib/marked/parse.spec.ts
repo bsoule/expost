@@ -9,4 +9,12 @@ describe("marked ids extension", () => {
 
     expect(r).toContain('&lt;a id="foo1" href="#foo"&gt;[N]&lt;/a&gt;');
   });
+
+  it("does not encode html comments", () => {
+    const r = parse(`a\n <!--\nb\n\nc\n-->`);
+
+    console.log(r);
+
+    expect(r).not.toContain("&lt;!&#8212;");
+  });
 });
