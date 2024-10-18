@@ -25,4 +25,14 @@ export default {
       return false;
     },
   },
+  renderer: {
+    link({ href, text }: Tokens.Link) {
+      const emailRegex = /^mailto:\S+@\S+\.\S+$/;
+      if (emailRegex.test(href)) {
+        return text;
+      }
+
+      return false;
+    },
+  },
 };
