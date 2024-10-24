@@ -3,6 +3,9 @@ import tseslint from "typescript-eslint";
 import parser from "@typescript-eslint/parser";
 
 export default tseslint.config(
+  {
+    ignores: ["node_modules", "dist"],
+  },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -18,5 +21,5 @@ export default tseslint.config(
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },
-  },
+  }
 );
