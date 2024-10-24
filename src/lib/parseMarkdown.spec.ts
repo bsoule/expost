@@ -7,7 +7,7 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: "foo -- bar",
-      }),
+      })
     );
 
     // https://www.codetable.net/name/em-dash
@@ -28,8 +28,8 @@ describe("body", () => {
         null,
         ether({
           content: "<script></script>",
-        }),
-      ),
+        })
+      )
     ).toThrow();
   });
 
@@ -39,8 +39,8 @@ describe("body", () => {
         null,
         ether({
           content: "<script>console.log('hello')</script>",
-        }),
-      ),
+        })
+      )
     ).toThrow();
   });
 
@@ -49,12 +49,12 @@ describe("body", () => {
       parseMarkdown(
         ether({
           content: "<style>body {font-size: 2em;}</style>",
-        }),
-      ),
+        })
+      )
     ).toEqual(
       expect.stringContaining(
-        "&lt;style&gt;body {font-size: 2em;}&lt;/style&gt;",
-      ),
+        "&lt;style&gt;body {font-size: 2em;}&lt;/style&gt;"
+      )
     );
   });
 
@@ -64,8 +64,8 @@ describe("body", () => {
         null,
         ether({
           content: `<iframe src="https://www.example.com"></iframe>`,
-        }),
-      ),
+        })
+      )
     ).toThrow("Iframe src not allowed");
   });
 
@@ -73,11 +73,11 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: `<img src="https://blog.beeminder.com/image.png" title="the_title" />`,
-      }),
+      })
     );
 
     expect(r).toContain(
-      `<img src="https://blog.beeminder.com/image.png" title="the_title" />`,
+      `<img src="https://blog.beeminder.com/image.png" title="the_title" />`
     );
   });
 
@@ -85,11 +85,11 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: `<img src="https://blog.beeminder.com/image.png" alt="the_alt" />`,
-      }),
+      })
     );
 
     expect(r).toContain(
-      `<img src="https://blog.beeminder.com/image.png" alt="the_alt" />`,
+      `<img src="https://blog.beeminder.com/image.png" alt="the_alt" />`
     );
   });
 
@@ -97,11 +97,11 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: `<img src="https://blog.beeminder.com/image.png" alt="the_alt" title="the_title" />`,
-      }),
+      })
     );
 
     expect(r).toContain(
-      `<img src="https://blog.beeminder.com/image.png" alt="the_alt" title="the_title" />`,
+      `<img src="https://blog.beeminder.com/image.png" alt="the_alt" title="the_title" />`
     );
   });
 
@@ -109,7 +109,7 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: `<a class="footnote" id="DC21" href="#DC2">[2]</a>`,
-      }),
+      })
     );
 
     expect(r).toContain('<a class="footnote" id="DC21" href="#DC2">[2]</a>');
@@ -119,7 +119,7 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: "foo@example.com",
-      }),
+      })
     );
     expect(r).toContain("<p>foo@example.com</p>");
   });
@@ -128,11 +128,11 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: "[moved to http://example.com/foo]",
-      }),
+      })
     );
 
     expect(r).toContain(
-      '[moved to <a href="http://example.com/foo">http://example.com/foo</a>]',
+      '[moved to <a href="http://example.com/foo">http://example.com/foo</a>]'
     );
   });
 
@@ -140,7 +140,7 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: "<p>\n\nfoo</p>",
-      }),
+      })
     );
 
     expect(r).toEqual("<p>foo</p>\n");
@@ -150,7 +150,7 @@ describe("body", () => {
     const r = parseMarkdown(
       ether({
         content: '<input type="checkbox" checked />',
-      }),
+      })
     );
 
     expect(r).toContain('<input type="checkbox" checked />');
@@ -160,7 +160,7 @@ describe("body", () => {
     expect(
       parseMarkdown(["| foo |", "| --- |", "| <PPR |"].join("\n"), {
         strict: false,
-      }),
+      })
     ).toBe(
       [
         "<table>",
@@ -173,7 +173,7 @@ describe("body", () => {
         "<td>&lt;PPR</td>",
         "</tr>",
         "</tbody></table>\n",
-      ].join("\n"),
+      ].join("\n")
     );
   });
 
@@ -181,10 +181,20 @@ describe("body", () => {
     expect(
       parseMarkdown(
         'For a lot of engineering problems, "almost right" isn\'t good enough.',
-        { strict: false },
-      ),
+        { strict: false }
+      )
     ).toBe(
-      "<p>For a lot of engineering problems, &#8220;almost right&#8221; isn&#8217;t good enough.</p>\n",
+      "<p>For a lot of engineering problems, &#8220;almost right&#8221; isn&#8217;t good enough.</p>\n"
     );
+  });
+
+  it("handles inline code blocks", () => {
+    const r = parseMarkdown(
+      ether({
+        content: "foo `bar` baz",
+      })
+    );
+
+    expect(r).toContain("<p>foo <code>bar</code> baz</p>");
   });
 });
