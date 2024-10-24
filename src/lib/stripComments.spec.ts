@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import trimComments from "./trimComments.js";
+import trimComments from "./stripComments.js";
 
 describe("trimComments", () => {
   it("removes comments on their own line in cluding newline", () => {
