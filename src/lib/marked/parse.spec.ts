@@ -10,11 +10,9 @@ describe("marked ids extension", () => {
     expect(r).toContain('&lt;a id="foo1" href="#foo"&gt;[N]&lt;/a&gt;');
   });
 
-  it("does not encode html comments", () => {
-    const r = parse(`a\n <!--\nb\n\nc\n-->`);
+  it("parses ~~ as strikethrough", () => {
+    const r = parse("~~foo~~");
 
-    console.log(r);
-
-    expect(r).not.toContain("&lt;!&#8212;");
+    expect(r).toContain("<del>foo</del>");
   });
 });

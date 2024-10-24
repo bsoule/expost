@@ -7,11 +7,12 @@ const extension: MarkedExtension = {
       // don't escape inlineText
       const cap = this.rules.inline.text.exec(src);
       const raw = cap?.[0] ?? "";
+      const text = raw.replace("<", "&lt;").replace(">", "&gt;");
 
       return {
         type: "text",
         raw,
-        text: raw,
+        text: text,
       };
     },
   },

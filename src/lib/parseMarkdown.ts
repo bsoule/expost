@@ -7,6 +7,7 @@ import flattenParagraphs from "./flattenParagraphs.js";
 import sanitizeHtml from "sanitize-html";
 import { SANITIZE_HTML_OPTIONS } from "./parseMarkdown.options.js";
 import parse from "./marked/parse.js";
+import trimComments from "./trimComments.js";
 
 export function parseMarkdown(
   markdown: string,
@@ -29,12 +30,13 @@ export function parseMarkdown(
   }
 
   const c1 = trimContent(markdown);
-  const c2 = addBlankLines(c1);
-  const c3 = linkFootnotes(c2);
-  const c4 = expandRefs(c3);
-  const c5 = parse(c4);
-  const c6 = spaceEMDashes(c5);
-  const c7 = flattenParagraphs(c6);
+  const c2 = trimComments(c1);
+  const c3 = addBlankLines(c2);
+  const c4 = linkFootnotes(c3);
+  const c5 = expandRefs(c4);
+  const c6 = parse(c5);
+  const c7 = spaceEMDashes(c6);
+  const c8 = flattenParagraphs(c7);
 
-  return sanitizeHtml(c7, SANITIZE_HTML_OPTIONS);
+  return sanitizeHtml(c8, SANITIZE_HTML_OPTIONS);
 }
