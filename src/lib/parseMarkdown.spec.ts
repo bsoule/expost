@@ -197,4 +197,38 @@ describe("body", () => {
 
     expect(r).toContain("<p>foo <code>bar</code> baz</p>");
   });
+
+  it("allows img tags", () => {
+    const r = parseMarkdown(
+      ether({
+        content: "![img](foo.png)",
+      })
+    );
+
+    expect(r).toContain('<img src="foo.png" alt="img" />');
+  });
+
+  it("allows linked img tags", () => {
+    const r = parseMarkdown(
+      ether({
+        content: "[![img](foo.png)](bar)",
+      })
+    );
+
+    expect(r).toContain('<a href="bar"><img src="foo.png" alt="img" /></a>');
+  });
+
+  it("does not encode comment with enpty lines", () => {
+    const r = parseMarkdown(
+      ether({
+        content: `before
+ <!--
+foo
+
+bar
+-->`,
+      })
+    );
+    expect(r).not.toContain("&lt;!&#8212;");
+  });
 });

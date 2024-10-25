@@ -15,4 +15,26 @@ describe("marked ids extension", () => {
 
     expect(r).toContain("<del>foo</del>");
   });
+
+  it("does not encode arrows in img tags", () => {
+    const r = parse("![img](foo.png)");
+
+    expect(r).toContain('<img src="foo.png" alt="img">');
+  });
+
+  it("does not encode linked img tags", () => {
+    const r = parse("[![img](foo.png)](bar)");
+
+    expect(r).toContain('<a href="bar"><img src="foo.png" alt="img"></a>');
+  });
+
+  it.only("does not encode comment with enpty lines", () => {
+    const r = parse(`before
+    <!--
+  foo
+  
+  bar
+  -->`);
+    expect(r).not.toContain("&lt;!&#8212;");
+  });
 });
