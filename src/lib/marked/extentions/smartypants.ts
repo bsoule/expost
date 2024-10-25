@@ -18,7 +18,17 @@ const extension: MarkedExtension = {
   },
   hooks: {
     postprocess(html: string) {
-      return smartypants(html, "1");
+      const preprocessedHtml = html
+        .replace(/<!--|&lt;!--/g, "__OPEN_COMMENT__")
+        .replace(/-->|--&gt;/g, "__CLOSE_COMMENT__");
+
+      const smartHtml = smartypants(preprocessedHtml, "1");
+
+      const postprocessedHtml = smartHtml
+        .replace(/__OPEN_COMMENT__/g, "<!--")
+        .replace(/__CLOSE_COMMENT__/g, "-->");
+
+      return postprocessedHtml;
     },
   },
 };

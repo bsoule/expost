@@ -10,4 +10,15 @@ describe("marked ids extension", () => {
 
     expect(r).toContain("<p>-&gt; <code>a</code></p>");
   });
+
+  it("does not encode comment with enpty lines", () => {
+    const r = marked.parse(`before
+  <!--
+foo
+
+bar
+-->`);
+    expect(r).toContain("<!--");
+    expect(r).toContain("-->");
+  });
 });
