@@ -28,7 +28,7 @@ describe("marked ids extension", () => {
     expect(r).toContain('<a href="bar"><img src="foo.png" alt="img"></a>');
   });
 
-  it.only("does not encode comment with enpty lines", () => {
+  it("does not encode comment with enpty lines", () => {
     const r = parse(`before
     <!--
   foo
