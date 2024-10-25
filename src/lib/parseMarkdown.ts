@@ -7,7 +7,6 @@ import flattenParagraphs from "./flattenParagraphs.js";
 import sanitizeHtml from "sanitize-html";
 import { SANITIZE_HTML_OPTIONS } from "./parseMarkdown.options.js";
 import parse from "./marked/parse.js";
-import trimComments from "./stripComments.js";
 
 export function parseMarkdown(
   markdown: string,
