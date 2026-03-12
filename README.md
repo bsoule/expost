@@ -1,7 +1,9 @@
-# expost
+ExPost: Render HTML from Etherpads
 
 See
-[doc.bmndr.co](http://doc.bmndr.co)
+[doc.bmndr.co](http://doc.bmndr.co "Beeminder documents")
 for the (self-)documentation.
 
-Last GitHub tag for WordPress support: [last-wp-support](https://github.com/bsoule/expost/releases/tag/last-wp-support)
+See the etherpad directory for the system we're still using for rendering 
+doc.beeminder.com and doc.dreev.es documents.
+
