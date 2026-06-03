@@ -157,8 +157,10 @@ try {
 }
 catch (Exception $e) {
   # Don't show show the padm.us URL in the error message
-  $maskedurl = preg_replace('/padm\.us/', 'EPURL', $epurl, 1);
-  $content = "<pre>ERROR: failed to fetch $maskedurl\n\n{$e->getMessage()}</pre>";
+  #$maskedurl = preg_replace('/padm\.us/', 'EPURL', $epurl, 1);
+  $content = "<pre>ERROR_20260602</pre>";
+  # Actually don't echo even the masked URL, just give a greppable error
+  # Definitely don't echo $e->getMessage() since it leaks the unmasked $epurl
 }
 restore_error_handler();
 
