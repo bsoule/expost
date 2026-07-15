@@ -1,0 +1,51 @@
+name: Release
+# On every merge to master, auto-compute the next version from git tags and
+# cut a GitHub release with a prebuilt npm tarball attached. Consumers install
+# expost from that release asset URL (no token, no install-time tsc build).
+# No version field to hand-edit — the tag is derived, not stored. See
+# beeminder/blog#656.
+on:
+  push:
+    branches: [master]
+permissions:
+  contents: write
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  PNPM_VERSION: 9
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git fetch --prune --tags
+      - id: semver
+        uses: ietf-tools/semver-action@v1
+        with:
+          token: ${{ github.token }}
+          branch: master
+          fallbackTag: v1.0.0
+          noVersionBumpBehavior: patch # release on every merge, not just conventional commits
+          skipInvalidTags: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - name: Pack tarball named for the release tag
+        env:
+          VERSION: ${{ steps.semver.outputs.next }}
+        run: |
+          pnpm pack # respects files:[dist]; produces expost-<package.json version>.tgz
+          mv expost-*.tgz "expost-${VERSION#v}.tgz"
+      - name: Create release with tarball
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.semver.outputs.next }}
+        run: gh release create "$VERSION" "expost-${VERSION#v}.tgz" --title "$VERSION" --generate-notes

@@ -4,7 +4,7 @@ import parser from "@typescript-eslint/parser";
 
 export default tseslint.config(
   {
-    ignores: ["node_modules", "dist"],
+    ignores: ["node_modules", "dist", "etherpad"],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
