@@ -1,0 +1,30 @@
+name: Release
+# Build a prebuilt npm tarball and attach it to the GitHub release, so
+# consumers can install expost from the release asset URL (no token, no
+# install-time tsc build). See beeminder/blog#656.
+on:
+  release:
+    types: [published]
+permissions:
+  contents: write
+env:
+  PNPM_VERSION: 9
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm pack # respects files:[dist] -> expost-<version>.tgz
+      - name: Attach tarball to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$TAG" expost-*.tgz --clobber
