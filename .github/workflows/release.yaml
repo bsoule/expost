@@ -1,9 +1,12 @@
 name: Release
-# On every merge to master, auto-compute the next version from git tags and
-# cut a GitHub release with a prebuilt npm tarball attached. Consumers install
-# expost from that release asset URL (no token, no install-time tsc build).
-# No version field to hand-edit — the tag is derived, not stored. See
-# beeminder/blog#656.
+# On every merge to master, cut a GitHub release with a prebuilt npm tarball
+# attached, so consumers install expost from the release asset URL (no token,
+# no install-time tsc build). See beeminder/blog#656.
+#
+# Versioning: conventional commits since the last tag decide the bump
+# (feat -> minor, fix -> patch, BREAKING CHANGE -> major; anything else -> patch
+# so every merge still ships). The first release (no tags yet) is v1.0.0 —
+# semver-action needs an existing tag to diff against, so we bypass it then.
 on:
   push:
     branches: [master]
@@ -22,14 +25,31 @@ jobs:
         with:
           fetch-depth: 0
       - run: git fetch --prune --tags
+      - id: tags
+        name: Detect existing tags
+        run: echo "latest=$(git tag --list 'v*' --sort=-v:refname | head -n1)" >> "$GITHUB_OUTPUT"
       - id: semver
+        name: Compute bump from conventional commits
+        if: steps.tags.outputs.latest != ''
         uses: ietf-tools/semver-action@v1
         with:
           token: ${{ github.token }}
           branch: master
-          fallbackTag: v1.0.0
-          noVersionBumpBehavior: patch # release on every merge, not just conventional commits
+          noVersionBumpBehavior: patch # release on every merge, not just feat/fix
           skipInvalidTags: true
+      - id: version
+        name: Resolve next version
+        env:
+          LATEST: ${{ steps.tags.outputs.latest }}
+          BUMPED: ${{ steps.semver.outputs.next }}
+        run: |
+          if [ -z "$LATEST" ]; then
+            next=v1.0.0 # first release; no tag for semver-action to diff against
+          else
+            next="$BUMPED"
+          fi
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+          echo "Next release: $next"
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -40,12 +60,12 @@ jobs:
       - run: pnpm run build
       - name: Pack tarball named for the release tag
         env:
-          VERSION: ${{ steps.semver.outputs.next }}
+          VERSION: ${{ steps.version.outputs.next }}
         run: |
           pnpm pack # respects files:[dist]; produces expost-<package.json version>.tgz
           mv expost-*.tgz "expost-${VERSION#v}.tgz"
       - name: Create release with tarball
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.semver.outputs.next }}
+          VERSION: ${{ steps.version.outputs.next }}
         run: gh release create "$VERSION" "expost-${VERSION#v}.tgz" --title "$VERSION" --generate-notes
